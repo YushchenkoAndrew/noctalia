@@ -49,29 +49,6 @@ NIconButton {
   border.color: Style.capsuleBorderColor
   border.width: Style.capsuleBorderWidth
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   onClicked: PanelService.getPanel("sessionMenuPanel", screen)?.toggle()
-  onRightClicked: {
-    PanelService.showContextMenu(contextMenu, root, screen);
-  }
 }

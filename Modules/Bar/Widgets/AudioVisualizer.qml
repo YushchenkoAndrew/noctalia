@@ -131,11 +131,6 @@ Item {
         "action": "cycle-visualizer",
         "icon": "chart-column"
       },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
     ]
 
     onTriggered: action => {
@@ -149,8 +144,6 @@ Item {
                      const currentIndex = types.indexOf(currentVisualizerType);
                      const nextIndex = (currentIndex + 1) % types.length;
                      Settings.data.audio.visualizerType = types[nextIndex];
-                   } else if (action === "widget-settings" && screen) {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    }
                  }
   }

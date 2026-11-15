@@ -125,26 +125,6 @@ Item {
   implicitWidth: useGraphicMode ? capsule.width : pill.width
   implicitHeight: useGraphicMode ? capsule.height : pill.height
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   // ==================== GRAPHIC MODE ====================
 
@@ -205,9 +185,7 @@ Item {
     }
     onClicked: mouse => {
                  TooltipService.hide();
-                 if (mouse.button === Qt.RightButton) {
-                   PanelService.showContextMenu(contextMenu, nBattery, screen);
-                 } else {
+                 if (mouse.button !== Qt.RightButton) {
                    toggleBatteryPanel();
                  }
                }
@@ -241,7 +219,6 @@ Item {
     customTextIconColor: root.isCharging ? Color.mOnPrimary : ((root.isLowBattery || root.isCriticalBattery) ? Color.mOnError : "transparent")
     tooltipText: !getBatteryPanel()?.isPanelOpen ? root.tooltipContent : ""
     onClicked: toggleBatteryPanel()
-    onRightClicked: PanelService.showContextMenu(contextMenu, pill, screen)
   }
 
   // ==================== SHARED ====================

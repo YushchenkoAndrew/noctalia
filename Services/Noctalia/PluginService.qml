@@ -4,12 +4,14 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.Noctalia
 import qs.Services.UI
 
 Singleton {
   id: root
+
+  // Used to check plugin `minNoctaliaVersion` compatibility (was UpdateService.baseVersion)
+  readonly property string noctaliaVersion: "4.7.8"
 
   signal pluginLoaded(string pluginId)
   signal pluginUnloaded(string pluginId)
@@ -417,7 +419,7 @@ Singleton {
 
       // Check Noctalia version compatibility (skip when updating - that's handled in performUpdateCheck)
       if (pluginMetadata.minNoctaliaVersion) {
-        var noctaliaVersion = UpdateService.baseVersion;
+        var noctaliaVersion = root.noctaliaVersion;
         if (compareVersions(pluginMetadata.minNoctaliaVersion, noctaliaVersion) > 0) {
           var incompatibleMsg = I18n.tr("panels.plugins.install-incompatible", {
                                           "plugin": pluginMetadata.name,
@@ -1419,7 +1421,7 @@ Singleton {
         if (compareVersions(availableVersion, currentVersion) > 0) {
           // Check if the available version requires a higher Noctalia version
           if (availablePlugin.minNoctaliaVersion) {
-            var noctaliaVersion = UpdateService.baseVersion;
+            var noctaliaVersion = root.noctaliaVersion;
             if (compareVersions(availablePlugin.minNoctaliaVersion, noctaliaVersion) > 0) {
               Logger.d("PluginService", "Pending update for", pluginId + ": requires Noctalia v" + availablePlugin.minNoctaliaVersion + " (current: v" + noctaliaVersion + ")");
               pendingUpdates[pluginId] = {
@@ -1454,25 +1456,7 @@ Singleton {
       Logger.i("PluginService", updateCount, "plugin update(s) available");
 
       if (Settings.data.plugins.notifyUpdates) {
-        ToastService.showNotice(I18n.tr("panels.plugins.title"), I18n.trp("panels.plugins.update-available", updateCount) + "\n\n" + updatesDescription, "plugin", 5000, I18n.tr("panels.plugins.open-plugins-tab"), function () {
-          // Open settings panel to Plugins tab on the screen where the cursor is
-          if (root.screenDetector) {
-            root.screenDetector.withCurrentScreen(function (screen) {
-              var panel = PanelService.getPanel("settingsPanel", screen);
-              if (panel) {
-                panel.requestedTab = SettingsPanel.Tab.Plugins;
-                panel.open();
-              }
-            });
-          } else {
-            // Fallback to primary screen if screen detector is not available
-            var panel = PanelService.getPanel("settingsPanel", Quickshell.screens[0]);
-            if (panel) {
-              panel.requestedTab = SettingsPanel.Tab.Plugins;
-              panel.open();
-            }
-          }
-        });
+        ToastService.showNotice(I18n.tr("panels.plugins.title"), I18n.trp("panels.plugins.update-available", updateCount) + "\n\n" + updatesDescription, "plugin", 5000);
       }
     } else if (pendingCount > 0) {
       Logger.i("PluginService", pendingCount, "plugin update(s) pending (require newer Noctalia)");

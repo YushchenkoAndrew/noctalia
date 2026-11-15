@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Io
 import qs.Commons
 import qs.Modules.Bar.Extras
-import qs.Modules.Panels.Settings
 import qs.Services.System
 import qs.Services.UI
 import qs.Widgets
@@ -154,38 +153,6 @@ Item {
   readonly property bool diskWarning: showDiskUsage && SystemStatService.isDiskWarning(diskPath)
   readonly property bool diskCritical: showDiskUsage && SystemStatService.isDiskCritical(diskPath)
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("system-monitor.title"),
-        "action": "sysmon-settings",
-        "icon": "settings"
-      },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "sysmon-settings") {
-                     let monitorCmd = Settings.data.systemMonitor.externalMonitor;
-                     if (monitorCmd && monitorCmd.trim() !== "") {
-                       openExternalMonitor();
-                     } else {
-                       SettingsPanelService.openToTab(SettingsPanel.Tab.System, 0, screen);
-                     }
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   // Visual capsule centered in parent
   Rectangle {
@@ -936,7 +903,7 @@ Item {
                    TooltipService.hide();
                  } else if (mouse.button === Qt.RightButton) {
                    TooltipService.hide();
-                   PanelService.showContextMenu(contextMenu, root, screen);
+                   openExternalMonitor();
                  } else if (mouse.button === Qt.MiddleButton) {
                    TooltipService.hide();
                    openExternalMonitor();

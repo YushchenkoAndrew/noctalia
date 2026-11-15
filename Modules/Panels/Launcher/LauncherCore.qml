@@ -578,13 +578,6 @@ Rectangle {
     }
   }
 
-  SettingsProvider {
-    id: settingsProvider
-    Component.onCompleted: {
-      registerProvider(this);
-      Logger.d("Launcher", "Registered: SettingsProvider");
-    }
-  }
 
   SessionProvider {
     id: sessionProvider

@@ -174,26 +174,6 @@ Item {
     }
   }
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   Rectangle {
     id: windowActiveRect
@@ -356,11 +336,6 @@ Item {
     onExited: {
       TooltipService.hide();
     }
-    onClicked: mouse => {
-                 if (mouse.button === Qt.RightButton) {
-                   PanelService.showContextMenu(contextMenu, root, screen);
-                 }
-               }
   }
 
   Connections {

@@ -12,14 +12,13 @@ import qs.Services.UI
 Singleton {
   id: root
 
-  // Signal emitted when color generation completes successfully (for wallpaper-based theming)
+  // Signal emitted when color generation completes successfully
   signal colorsGenerated
 
   readonly property string dynamicConfigPath: Settings.cacheDir + "theming.dynamic.toml"
   readonly property string templateProcessorScript: Quickshell.shellDir + "/Scripts/python/src/theming/template-processor.py"
 
-  // Debounce state for wallpaper processing
-  property var pendingWallpaperRequest: null
+  // Debounce state for scheme processing
   property var pendingPredefinedRequest: null
 
   readonly property var schemeTypes: [
@@ -80,34 +79,6 @@ Singleton {
     return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
   }
 
-  /**
-  * Process wallpaper colors using internal themer
-  * Dual-path architecture (wallpaper generation)
-  * Uses debouncing to prevent spawning multiple processes when spamming wallpaper changes
-  */
-  function processWallpaperColors(wallpaperPath, mode) {
-    Logger.d("TemplateProcessor", `processWallpaperColors called: path=${wallpaperPath}, mode=${mode}`);
-    pendingWallpaperRequest = {
-      wallpaperPath: wallpaperPath,
-      mode: mode
-    };
-    pendingPredefinedRequest = null;
-    debounceTimer.restart();
-  }
-
-  function executeWallpaperColors(wallpaperPath, mode) {
-    Logger.d("TemplateProcessor", `executeWallpaperColors: path=${wallpaperPath}, mode=${mode}`);
-    const content = buildThemeConfig();
-    if (!content && !Settings.data.templates.enableUserTheming) {
-      Logger.d("TemplateProcessor", "executeWallpaperColors: no config content and no user theming, aborting");
-      return;
-    }
-    const script = buildGenerationScript(content, wallpaperPath, mode);
-
-    generateProcess.command = ["sh", "-c", script];
-    generateProcess.running = true;
-  }
-
   readonly property string schemeJsonPath: Settings.cacheDir + "predefined-scheme.json"
   readonly property string predefinedConfigPath: Settings.cacheDir + "theming.predefined.toml"
 
@@ -122,7 +93,6 @@ Singleton {
       mode: mode,
       wallpaperPath: wallpaperPath || ""
     };
-    pendingWallpaperRequest = null;
     debounceTimer.restart();
   }
 
@@ -195,45 +165,6 @@ Singleton {
       return ["[config]"].concat(lines).join("\n") + "\n";
     }
     return "";
-  }
-
-  // ================================================================================
-  // WALLPAPER-BASED GENERATION
-  // ================================================================================
-  function buildThemeConfig() {
-    var lines = [];
-    var mode = Settings.data.colorSchemes.darkMode ? "dark" : "light";
-
-    if (Settings.data.colorSchemes.useWallpaperColors) {
-      addWallpaperTheming(lines, mode);
-    }
-
-    addApplicationTheming(lines, mode);
-
-    if (lines.length > 0) {
-      return ["[config]"].concat(lines).join("\n") + "\n";
-    }
-    return "";
-  }
-
-  function addWallpaperTheming(lines, mode) {
-    const homeDir = Quickshell.env("HOME");
-    // Noctalia colors JSON
-    lines.push("[templates.noctalia]");
-    lines.push('input_path = "' + Quickshell.shellDir + '/Assets/Templates/noctalia.json"');
-    lines.push('output_path = "' + Settings.configDir + 'colors.json"');
-
-    // Terminal templates
-    TemplateRegistry.terminals.forEach(terminal => {
-                                         if (isTemplateEnabled(terminal.id)) {
-                                           lines.push(`\n[templates.${terminal.id}]`);
-                                           lines.push(`input_path = "${Quickshell.shellDir}/Assets/Templates/${terminal.templatePath}"`);
-                                           const outputPath = terminal.outputPath.replace("~", homeDir);
-                                           lines.push(`output_path = "${outputPath}"`);
-                                           const postHookEsc = escapeTomlString(terminal.postHook);
-                                           lines.push(`post_hook = "${postHookEsc}"`);
-                                         }
-                                       });
   }
 
   function addApplicationTheming(lines, mode) {
@@ -333,53 +264,9 @@ Singleton {
     return validKeys.includes(method) ? method : "tonal-spot";
   }
 
-  function buildGenerationScript(content, wallpaper, mode) {
-    const pathEsc = dynamicConfigPath.replace(/'/g, "'\\''");
-    const wpDelimiter = "WALLPAPER_PATH_EOF_" + Math.random().toString(36).substr(2, 9);
-
-    // Use heredoc for wallpaper path to avoid all escaping issues
-    let script = `NOCTALIA_WP_PATH=$(cat << '${wpDelimiter}'\n${wallpaper}\n${wpDelimiter}\n)\n`;
-
-    // Run built-in template processor only if there are templates configured
-    if (content) {
-      const delimiter = "THEME_CONFIG_EOF_" + Math.random().toString(36).substr(2, 9);
-      script += `cat > '${pathEsc}' << '${delimiter}'\n${content}\n${delimiter}\n`;
-
-      // Use template-processor.py (Python implementation)
-      // Don't pass --mode so templates get both dark and light colors (e.g., zed.json needs both)
-      // Pass --default-mode so "default" in templates resolves to the current theme mode
-      const schemeType = getSchemeType();
-      script += `python3 "${templateProcessorScript}" "$NOCTALIA_WP_PATH" --scheme-type ${schemeType} --config '${pathEsc}' --default-mode ${mode}\n`;
-    }
-
-    script += buildUserTemplateCommand("$NOCTALIA_WP_PATH", mode);
-
-    return script + "\n";
-  }
-
   // ================================================================================
   // USER TEMPLATES, advanced usage
   // ================================================================================
-  function buildUserTemplateCommand(input, mode) {
-    if (!Settings.data.templates.enableUserTheming)
-      return "";
-
-    const userConfigPath = getUserConfigPath();
-    let script = "\n# Execute user config if it exists\n";
-    script += `if [ -f '${userConfigPath}' ]; then\n`;
-    // If input is a shell variable (starts with $), use double quotes to allow expansion
-    // Otherwise, use single quotes for safety with file paths
-    const inputQuoted = input.startsWith("$") ? `"${input}"` : `'${input.replace(/'/g, "'\\''")}'`;
-
-    const schemeType = getSchemeType();
-    // Don't pass --mode so user templates get both dark and light colors
-    // Pass --default-mode so "default" in templates resolves to the current theme mode
-    script += `  python3 "${templateProcessorScript}" ${inputQuoted} --scheme-type ${schemeType} --config '${userConfigPath}' --default-mode ${mode}\n`;
-    script += "fi";
-
-    return script;
-  }
-
   function buildUserTemplateCommandForPredefined(schemeData, mode, wallpaperPath) {
     if (!Settings.data.templates.enableUserTheming)
       return "";
@@ -410,12 +297,8 @@ Singleton {
   // DEBOUNCE TIMER
   // ================================================================================
   function executePendingRequest() {
-    Logger.d("TemplateProcessor", `executePendingRequest: hasWallpaper=${!!pendingWallpaperRequest}, hasPredefined=${!!pendingPredefinedRequest}`);
-    if (pendingWallpaperRequest) {
-      const req = pendingWallpaperRequest;
-      pendingWallpaperRequest = null;
-      executeWallpaperColors(req.wallpaperPath, req.mode);
-    } else if (pendingPredefinedRequest) {
+    Logger.d("TemplateProcessor", `executePendingRequest: hasPredefined=${!!pendingPredefinedRequest}`);
+    if (pendingPredefinedRequest) {
       const req = pendingPredefinedRequest;
       pendingPredefinedRequest = null;
       executePredefinedScheme(req.schemeData, req.mode, req.wallpaperPath);
@@ -451,7 +334,7 @@ Singleton {
 
     onExited: function (exitCode, exitStatus) {
       // Execute any pending request (handles both kill case and debounce timer interval case)
-      if (pendingWallpaperRequest || pendingPredefinedRequest) {
+      if (pendingPredefinedRequest) {
         Logger.d("TemplateProcessor", "generateProcess onExited: has pending request, executing");
         executePendingRequest();
       } else if (exitCode === 0) {

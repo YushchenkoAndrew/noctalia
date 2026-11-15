@@ -489,11 +489,7 @@ Item {
           }
         }
       }
-      items.push({
-                   "label": I18n.tr("actions.widget-settings"),
-                   "action": "widget-settings",
-                   "icon": "settings"
-                 });
+      items.push();
       return items;
     }
     onTriggered: (action, item) => {
@@ -509,8 +505,6 @@ Item {
                      root.toggleAppPin(root.selectedAppId);
                    } else if (action === "close" && selectedWindow) {
                      CompositorService.closeWindow(selectedWindow);
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(root.screen, root.section, root.sectionWidgetIndex, root.widgetId, root.widgetSettings);
                    } else if (action.startsWith("desktop-action-") && item && item.desktopAction) {
                      if (item.desktopAction.command && item.desktopAction.command.length > 0) {
                        Quickshell.execDetached(item.desktopAction.command);
@@ -1011,11 +1005,7 @@ Item {
         }
       }
     }
-    items.push({
-                 "label": I18n.tr("actions.widget-settings"),
-                 "action": "widget-settings",
-                 "icon": "settings"
-               });
+    items.push();
 
     // Set the model directly
     contextMenu.model = items;

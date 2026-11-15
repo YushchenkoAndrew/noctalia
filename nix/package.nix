@@ -1,17 +1,25 @@
 {
   version ? "dirty",
+  # Extra binaries for features you enable in settings.json, e.g.
+  #   noctalia-shell.override { extraPackages = [ pkgs.cava ]; }
   extraPackages ? [ ],
+
+  # Optional features, off by default to keep the closure small.
+  # Turn on with `.override { ddcSupport = true; }` (and the matching settings.json key).
+  ddcSupport ? false, # external-monitor brightness   <-> brightness.enableDdcSupport
+  multimediaSupport ? false, # QtMultimedia, only needed by plugins that import it
+  calendarSupport ? false, # evolution-data-server calendar events
+
+  # What the shell needs for the features that are on in a lean setup.
   runtimeDeps ? [
     brightnessctl
     cliphist
-    ddcutil
     wlsunset
     wl-clipboard
-    wlr-randr
-    imagemagick
-    wget
+    imagemagick # notification icon processing
     (python3.withPackages (pp: lib.optional calendarSupport pp.pygobject3))
-  ],
+  ]
+  ++ lib.optional ddcSupport ddcutil,
 
   lib,
   stdenvNoCC,
@@ -24,13 +32,10 @@
   ddcutil,
   wlsunset,
   wl-clipboard,
-  wlr-randr,
   imagemagick,
-  wget,
   python3,
   wayland-scanner,
-  # calendar support
-  calendarSupport ? false,
+  # calendar support deps
   evolution-data-server,
   libical,
   glib,
@@ -46,7 +51,6 @@ let
       !(builtins.any (prefix: lib.path.hasPrefix (../. + prefix) (/. + path)) [
         /.github
         /.gitignore
-        /Assets/Screenshots
         /Scripts/dev
         /nix
         /LICENSE
@@ -79,8 +83,8 @@ stdenvNoCC.mkDerivation {
 
   buildInputs = [
     qt6.qtbase
-    qt6.qtmultimedia
-  ];
+  ]
+  ++ lib.optional multimediaSupport qt6.qtmultimedia;
 
   installPhase = ''
     mkdir -p $out/share/noctalia-shell $out/bin

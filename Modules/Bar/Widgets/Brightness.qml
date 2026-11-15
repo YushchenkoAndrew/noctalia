@@ -3,7 +3,6 @@ import QtQuick.Controls
 import Quickshell
 import qs.Commons
 import qs.Modules.Bar.Extras
-import qs.Modules.Panels.Settings
 import qs.Services.Hardware
 import qs.Services.UI
 import qs.Widgets
@@ -106,35 +105,6 @@ Item {
     onTriggered: pill.hide()
   }
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.open-display-settings"),
-        "action": "open-display-settings",
-        "icon": "sun"
-      },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "open-display-settings") {
-                     var settingsPanel = PanelService.getPanel("settingsPanel", screen);
-                     settingsPanel.requestedTab = SettingsPanel.Tab.Display;
-                     settingsPanel.open();
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   BarPill {
     id: pill
@@ -193,8 +163,5 @@ Item {
 
     onClicked: PanelService.getPanel("brightnessPanel", screen)?.toggle(this)
 
-    onRightClicked: {
-      PanelService.showContextMenu(contextMenu, pill, screen);
-    }
   }
 }

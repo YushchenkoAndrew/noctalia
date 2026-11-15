@@ -5,7 +5,6 @@ import Quickshell.Io
 import Quickshell.Services.Pipewire
 import qs.Commons
 import qs.Modules.Bar.Extras
-import qs.Modules.Panels.Settings
 import qs.Services.Media
 import qs.Services.UI
 import qs.Widgets
@@ -105,11 +104,6 @@ Item {
         "action": "custom-command",
         "icon": "adjustments"
       },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
     ]
 
     onTriggered: action => {
@@ -120,8 +114,6 @@ Item {
                      AudioService.setInputMuted(!AudioService.inputMuted);
                    } else if (action === "custom-command") {
                      Quickshell.execDetached(["sh", "-c", middleClickCommand]);
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    }
                  }
   }

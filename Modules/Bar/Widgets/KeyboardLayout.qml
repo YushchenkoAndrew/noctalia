@@ -49,26 +49,6 @@ Item {
   implicitWidth: pill.width
   implicitHeight: pill.height
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   BarPill {
     id: pill
@@ -85,8 +65,5 @@ Item {
     forceOpen: !root.showIcon || root.displayMode === "forceOpen"
     forceClose: root.showIcon && root.displayMode === "alwaysHide"
     onClicked: CompositorService.cycleKeyboardLayout()
-    onRightClicked: {
-      PanelService.showContextMenu(contextMenu, pill, screen);
-    }
   }
 }

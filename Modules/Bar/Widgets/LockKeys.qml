@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Io
 import qs.Commons
 import qs.Modules.Bar.Extras
-import qs.Modules.Panels.Settings
 import qs.Services.Keyboard
 import qs.Services.UI
 import qs.Widgets
@@ -59,26 +58,6 @@ Item {
   implicitHeight: contentHeight
   implicitWidth: contentWidth
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   // Visual capsule centered in parent
   Rectangle {
@@ -149,17 +128,5 @@ Item {
         }
       }
     }
-  }
-
-  // MouseArea at root level for extended click area
-  MouseArea {
-    acceptedButtons: Qt.RightButton
-    anchors.fill: parent
-
-    onClicked: mouse => {
-                 if (mouse.button === Qt.RightButton) {
-                   PanelService.showContextMenu(contextMenu, root, screen);
-                 }
-               }
   }
 }

@@ -39,26 +39,6 @@ Item {
   implicitWidth: pill.width
   implicitHeight: pill.height
 
-  NPopupContextMenu {
-    id: contextMenu
-
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
 
   BarPill {
     id: pill
@@ -71,9 +51,6 @@ Item {
     icon: IdleInhibitorService.isInhibited ? "keep-awake-on" : "keep-awake-off"
     tooltipText: IdleInhibitorService.isInhibited ? I18n.tr("tooltips.keep-awake") : I18n.tr("tooltips.keep-awake")
     onClicked: IdleInhibitorService.manualToggle()
-    onRightClicked: {
-      PanelService.showContextMenu(contextMenu, pill, screen);
-    }
     forceOpen: IdleInhibitorService.timeout !== null
     forceClose: IdleInhibitorService.timeout == null
     onWheel: function (delta) {

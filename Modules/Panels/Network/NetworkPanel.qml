@@ -2,10 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
-import "../Settings/Tabs/Connections" as WifiPrefs
 import qs.Commons
 import qs.Modules.MainScreen
-import qs.Modules.Panels.Settings
 import qs.Services.Networking
 import qs.Services.System
 import qs.Services.UI
@@ -149,12 +147,6 @@ SmartPanel {
               baseSize: Style.baseWidgetSize * 0.7 // Slightly smaller
             }
 
-            NIconButton {
-              icon: "settings"
-              tooltipText: I18n.tr("tooltips.open-settings")
-              baseSize: Style.baseWidgetSize * 0.8
-              onClicked: SettingsPanelService.openToTab(SettingsPanel.Tab.Connections, 0, screen)
-            }
 
             NIconButton {
               icon: "close"
@@ -379,7 +371,7 @@ SmartPanel {
               width: parent.width
               spacing: Style.marginM
 
-              WifiPrefs.WifiSubTab {
+              WifiSubTab {
                 showOnlyLists: true
               }
             }

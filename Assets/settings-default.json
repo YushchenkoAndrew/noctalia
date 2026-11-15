@@ -15,6 +15,7 @@
     "enableExclusionZoneInset": true,
     "backgroundOpacity": 0.93,
     "useSeparateOpacity": false,
+    "showBackground": true,
     "marginVertical": 4,
     "marginHorizontal": 4,
     "frameThickness": 8,
@@ -105,8 +106,6 @@
     "shadowOffsetY": 3,
     "language": "",
     "allowPanelsOnScreenWithoutBar": true,
-    "showChangelogOnStartup": true,
-    "telemetryEnabled": false,
     "enableLockScreenCountdown": true,
     "lockScreenCountdownDuration": 10000,
     "autoStartAuth": false,
@@ -154,9 +153,7 @@
     "boxBorderEnabled": false,
     "panelBackgroundOpacity": 0.93,
     "translucentWidgets": false,
-    "panelsAttachedToBar": true,
-    "settingsPanelMode": "attached",
-    "settingsPanelSideBarCardStyle": false
+    "panelsAttachedToBar": true
   },
   "location": {
     "name": "",
@@ -172,7 +169,7 @@
     "firstDayOfWeek": -1,
     "hideWeatherTimezone": false,
     "hideWeatherCityName": false,
-    "autoLocate": true
+    "autoLocate": false
   },
   "calendar": {
     "cards": [
@@ -189,53 +186,6 @@
         "id": "weather-card"
       }
     ]
-  },
-  "wallpaper": {
-    "enabled": true,
-    "overviewEnabled": false,
-    "directory": "",
-    "monitorDirectories": [],
-    "enableMultiMonitorDirectories": false,
-    "showHiddenFiles": false,
-    "viewMode": "single",
-    "setWallpaperOnAllMonitors": true,
-    "linkLightAndDarkWallpapers": true,
-    "fillMode": "crop",
-    "fillColor": "#000000",
-    "useSolidColor": false,
-    "solidColor": "#1a1a2e",
-    "automationEnabled": false,
-    "wallpaperChangeMode": "random",
-    "randomIntervalSec": 300,
-    "transitionDuration": 1500,
-    "transitionType": [
-      "fade",
-      "disc",
-      "stripes",
-      "wipe",
-      "pixelate",
-      "honeycomb"
-    ],
-    "skipStartupTransition": false,
-    "transitionEdgeSmoothness": 0.05,
-    "panelPosition": "follow_bar",
-    "hideWallpaperFilenames": false,
-    "useOriginalImages": false,
-    "overviewBlur": 0.4,
-    "overviewTint": 0.6,
-    "useWallhaven": false,
-    "wallhavenQuery": "",
-    "wallhavenSorting": "relevance",
-    "wallhavenOrder": "desc",
-    "wallhavenCategories": "111",
-    "wallhavenPurity": "100",
-    "wallhavenRatios": "",
-    "wallhavenApiKey": "",
-    "wallhavenResolutionMode": "atleast",
-    "wallhavenResolutionWidth": "",
-    "wallhavenResolutionHeight": "",
-    "sortOrder": "name",
-    "favorites": []
   },
   "appLauncher": {
     "enableClipboardHistory": false,
@@ -256,7 +206,6 @@
     "showCategories": true,
     "iconMode": "tabler",
     "showIconBackground": false,
-    "enableSettingsSearch": true,
     "enableWindowsSearch": true,
     "enableSessionSearch": true,
     "ignoreMouseInput": false,
@@ -274,9 +223,6 @@
         },
         {
           "id": "Bluetooth"
-        },
-        {
-          "id": "WallpaperSelector"
         },
         {
           "id": "NoctaliaPerformance"
@@ -348,7 +294,6 @@
     "externalMonitor": "resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor"
   },
   "noctaliaPerformance": {
-    "disableWallpaper": true,
     "disableDesktopWidgets": true
   },
   "dock": {
@@ -500,14 +445,12 @@
     "backlightDeviceMappings": []
   },
   "colorSchemes": {
-    "useWallpaperColors": false,
     "predefinedScheme": "Noctalia (default)",
     "darkMode": true,
     "schedulingMode": "off",
     "manualSunrise": "06:30",
     "manualSunset": "18:30",
     "generationMethod": "tonal-spot",
-    "monitorForColors": "",
     "syncGsettings": true
   },
   "templates": {
@@ -525,7 +468,6 @@
   },
   "hooks": {
     "enabled": false,
-    "wallpaperChange": "",
     "darkModeChange": "",
     "screenLock": "",
     "screenUnlock": "",

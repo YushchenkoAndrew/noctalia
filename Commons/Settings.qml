@@ -16,7 +16,6 @@ Singleton {
   property bool isLoaded: false
   property bool reloadSettings: false
   property bool directoriesCreated: false
-  property bool shouldOpenSetupWizard: false
   property bool isFreshInstall: false
 
   /*
@@ -34,7 +33,6 @@ Singleton {
   readonly property string settingsFile: Quickshell.env("NOCTALIA_SETTINGS_FILE") || (configDir + "settings.json")
   readonly property string defaultAvatar: Quickshell.env("HOME") + "/.face"
   readonly property string defaultVideosDirectory: Quickshell.env("HOME") + "/Videos"
-  readonly property string defaultWallpapersDirectory: Quickshell.env("HOME") + "/Pictures/Wallpapers"
 
   signal settingsLoaded
   signal settingsSaved
@@ -83,7 +81,6 @@ Singleton {
 
     // Patch-in the local default, resolved to user's home
     adapter.general.avatarImage = defaultAvatar;
-    adapter.wallpaper.directory = defaultWallpapersDirectory;
     adapter.ui.fontDefault = Qt.application.font.family;
     adapter.ui.fontFixed = "monospace";
 
@@ -154,9 +151,6 @@ Singleton {
         // File doesn't exist, create it with default values
         root.isFreshInstall = true;
         writeAdapter();
-
-        // We started without settings, we should open the setupWizard
-        root.shouldOpenSetupWizard = true;
       }
     }
   }
@@ -218,6 +212,9 @@ Singleton {
       // Bar background opacity settings
       property real backgroundOpacity: 0.93
       property bool useSeparateOpacity: false
+      // When false the bar background is not rendered at all (no shape, offscreen layer or shadow),
+      // unlike backgroundOpacity = 0 which still renders an invisible one.
+      property bool showBackground: true
 
       // Floating bar settings
       property int marginVertical: 4
@@ -325,8 +322,6 @@ Singleton {
       property int shadowOffsetY: 3
       property string language: ""
       property bool allowPanelsOnScreenWithoutBar: true
-      property bool showChangelogOnStartup: true
-      property bool telemetryEnabled: false
       property bool enableLockScreenCountdown: true
       property int lockScreenCountdownDuration: 10000
       property bool autoStartAuth: false
@@ -362,8 +357,6 @@ Singleton {
       property real panelBackgroundOpacity: 0.93
       property bool translucentWidgets: false
       property bool panelsAttachedToBar: true
-      property string settingsPanelMode: "attached" // "centered", "attached", "window"
-      property bool settingsPanelSideBarCardStyle: false
     }
 
     // location
@@ -402,52 +395,6 @@ Singleton {
       ]
     }
 
-    // wallpaper
-    property JsonObject wallpaper: JsonObject {
-      property bool enabled: true
-      property bool overviewEnabled: false
-      property string directory: ""
-      property list<var> monitorDirectories: []
-      property bool enableMultiMonitorDirectories: false
-      property bool showHiddenFiles: false
-      property string viewMode: "single" // "single" | "recursive" | "browse"
-      property bool setWallpaperOnAllMonitors: true
-      property bool linkLightAndDarkWallpapers: true
-      property string fillMode: "crop"
-      property color fillColor: "#000000"
-      property bool useSolidColor: false
-      property color solidColor: "#1a1a2e"
-      property bool automationEnabled: false
-      property string wallpaperChangeMode: "random" // "random" or "alphabetical"
-      property int randomIntervalSec: 300 // 5 min
-      property int transitionDuration: 1500 // 1500 ms
-      property list<string> transitionType: ["fade", "disc", "stripes", "wipe", "pixelate", "honeycomb"]
-      property bool skipStartupTransition: false
-      property real transitionEdgeSmoothness: 0.05
-      property string panelPosition: "follow_bar"
-      property bool hideWallpaperFilenames: false
-      property bool useOriginalImages: false
-      property real overviewBlur: 0.4
-      property real overviewTint: 0.6
-      // Wallhaven settings
-      property bool useWallhaven: false
-      property string wallhavenQuery: ""
-      property string wallhavenSorting: "relevance"
-      property string wallhavenOrder: "desc"
-      property string wallhavenCategories: "111" // general,anime,people
-      property string wallhavenPurity: "100" // sfw only
-      property string wallhavenRatios: ""
-      property string wallhavenApiKey: ""
-      property string wallhavenResolutionMode: "atleast" // "atleast" or "exact"
-      property string wallhavenResolutionWidth: ""
-
-      property string wallhavenResolutionHeight: ""
-      property string sortOrder: "name" // "name", "name_desc", "date", "date_desc", "random"
-      property list<var> favorites: []
-      // Format: [{ "path": "...", "appearance": "light"|"dark", "colorScheme": "...", "darkMode": bool, "useWallpaperColors": bool, "generationMethod": "...", "paletteColors": [...] }]
-      // Legacy entries omit "appearance" and use darkMode to infer light vs dark slot.
-    }
-
     // applauncher
     property JsonObject appLauncher: JsonObject {
       property bool enableClipboardHistory: false
@@ -470,7 +417,6 @@ Singleton {
       // Icon mode: "tabler" or "native"
       property string iconMode: "tabler"
       property bool showIconBackground: false
-      property bool enableSettingsSearch: true
       property bool enableWindowsSearch: true
       property bool enableSessionSearch: true
       property bool ignoreMouseInput: false
@@ -492,9 +438,6 @@ Singleton {
           },
           {
             "id": "Bluetooth"
-          },
-          {
-            "id": "WallpaperSelector"
           },
           {
             "id": "NoctaliaPerformance"
@@ -570,7 +513,6 @@ Singleton {
 
     // performance
     property JsonObject noctaliaPerformance: JsonObject {
-      property bool disableWallpaper: true
       property bool disableDesktopWidgets: true
     }
 
@@ -734,14 +676,12 @@ Singleton {
     }
 
     property JsonObject colorSchemes: JsonObject {
-      property bool useWallpaperColors: false
       property string predefinedScheme: "Noctalia (default)"
       property bool darkMode: true
       property string schedulingMode: "off"
       property string manualSunrise: "06:30"
       property string manualSunset: "18:30"
       property string generationMethod: "tonal-spot"
-      property string monitorForColors: ""
       property bool syncGsettings: true
     }
 
@@ -766,7 +706,6 @@ Singleton {
     // hooks
     property JsonObject hooks: JsonObject {
       property bool enabled: false
-      property string wallpaperChange: ""
       property string darkModeChange: ""
       property string screenLock: ""
       property string screenUnlock: ""

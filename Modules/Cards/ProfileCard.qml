@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.System
 import qs.Services.UI
 import qs.Widgets
@@ -61,18 +60,6 @@ NBox {
       Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
       Item {
         Layout.fillWidth: true
-      }
-      NIconButton {
-        icon: "settings"
-        tooltipText: I18n.tr("tooltips.open-settings")
-        onClicked: {
-          // Better close the control center in case the settings open in a separate window
-          PanelService.openedPanel?.close();
-
-          var panel = PanelService.getPanel("settingsPanel", screen);
-          panel.requestedTab = SettingsPanel.Tab.General;
-          panel.open();
-        }
       }
 
       NIconButton {

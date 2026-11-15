@@ -5,14 +5,14 @@ import qs.Services.UI
 import qs.Widgets
 
 /**
-* AllBackgrounds - Unified Shape container for all bar and panel backgrounds
+* AllBackgrounds - Shape containers for bar and panel backgrounds
 *
-* Unified shadow system. This component contains a single Shape
-* with multiple ShapePath children (one for bar, one for each panel type).
+* Two rendering layouts, only ONE of which is ever instantiated:
+* - unified:  bar + panels share a single Shape/shadow (bar and panels are visually merged)
+* - separate: panels and bar are rendered independently (separate opacity)
 *
-* Benefits:
-* - Single GPU-accelerated rendering pass for all backgrounds
-* - Unified shadow system (one MultiEffect for everything)
+* Settings.data.bar.showBackground = false skips the bar background entirely (no Shape,
+* no offscreen layer, no shadow). That forces the "separate" layout so panels still render.
 */
 Item {
   id: root
@@ -25,16 +25,18 @@ Item {
 
   readonly property color panelBackgroundColor: Color.mSurface
 
+  readonly property bool barBackgroundEnabled: Settings.data.bar.showBackground
+  readonly property bool separateLayout: Settings.data.bar.useSeparateOpacity || !barBackgroundEnabled
+
   anchors.fill: parent
 
-  // Unified background container
-  Item {
+  // Unified background container (bar + panels in one Shape)
+  Loader {
     anchors.fill: parent
+    active: !root.separateLayout
 
-    // When not using separate bar opacity, use unified approach (original behavior)
-    Item {
+    sourceComponent: Item {
       anchors.fill: parent
-      visible: !Settings.data.bar.useSeparateOpacity
 
       // Enable layer caching to prevent continuous re-rendering
       layer.enabled: true
@@ -48,134 +50,119 @@ Item {
         enabled: false
 
         Component.onCompleted: {
-          Logger.d("AllBackgrounds", "AllBackgrounds initialized");
+          Logger.d("AllBackgrounds", "AllBackgrounds initialized (unified)");
         }
 
-        /**
-        *  Bar
-        */
         BarBackground {
           bar: root.bar
           shapeContainer: unifiedBackgroundsShape
           windowRoot: root.windowRoot
-          backgroundColor: panelBackgroundColor
+          backgroundColor: root.panelBackgroundColor
         }
 
-        /**
-        *  Panel Background Slots
-        *  Only 2 slots needed: one for currently open/opening panel, one for closing panel
-        */
-
-        // Slot 0: Currently open/opening panel
+        // Slot 0: currently open/opening panel
         PanelBackground {
           assignedPanel: {
             var p = PanelService.backgroundSlotAssignments[0];
-            // Only render if this panel belongs to this screen
             return (p && p.screen === root.windowRoot.screen) ? p : null;
           }
           shapeContainer: unifiedBackgroundsShape
-          defaultBackgroundColor: panelBackgroundColor
+          defaultBackgroundColor: root.panelBackgroundColor
         }
 
-        // Slot 1: Closing panel (during transitions)
+        // Slot 1: closing panel (during transitions)
         PanelBackground {
           assignedPanel: {
             var p = PanelService.backgroundSlotAssignments[1];
-            // Only render if this panel belongs to this screen
             return (p && p.screen === root.windowRoot.screen) ? p : null;
           }
           shapeContainer: unifiedBackgroundsShape
-          defaultBackgroundColor: panelBackgroundColor
+          defaultBackgroundColor: root.panelBackgroundColor
         }
       }
 
-      // Apply shadow to the unified backgrounds
       NDropShadow {
         anchors.fill: parent
         source: unifiedBackgroundsShape
       }
     }
+  }
 
-    // When using separate bar opacity, separate the rendering
-    Item {
+  // Separate layout: panels with panel opacity...
+  Loader {
+    anchors.fill: parent
+    active: root.separateLayout
+
+    sourceComponent: Item {
       anchors.fill: parent
-      visible: Settings.data.bar.useSeparateOpacity
 
-      // Panel backgrounds with panel opacity
-      Item {
+      layer.enabled: true
+      opacity: Style.effectivePanelOpacity
+
+      Shape {
+        id: panelBackgroundsShape
         anchors.fill: parent
+        preferredRendererType: Shape.CurveRenderer
+        asynchronous: true
+        enabled: false
 
-        layer.enabled: true
-        opacity: Style.effectivePanelOpacity
-
-        Shape {
-          id: panelBackgroundsShape
-          anchors.fill: parent
-          preferredRendererType: Shape.CurveRenderer
-          asynchronous: true
-          enabled: false
-
-          /**
-          *  Panel Background Slots
-          *  Only 2 slots needed: one for currently open/opening panel, one for closing panel
-          */
-
-          // Slot 0: Currently open/opening panel
-          PanelBackground {
-            assignedPanel: {
-              var p = PanelService.backgroundSlotAssignments[0];
-              // Only render if this panel belongs to this screen
-              return (p && p.screen === root.windowRoot.screen) ? p : null;
-            }
-            shapeContainer: panelBackgroundsShape
-            defaultBackgroundColor: panelBackgroundColor
+        // Slot 0: currently open/opening panel
+        PanelBackground {
+          assignedPanel: {
+            var p = PanelService.backgroundSlotAssignments[0];
+            return (p && p.screen === root.windowRoot.screen) ? p : null;
           }
-
-          // Slot 1: Closing panel (during transitions)
-          PanelBackground {
-            assignedPanel: {
-              var p = PanelService.backgroundSlotAssignments[1];
-              // Only render if this panel belongs to this screen
-              return (p && p.screen === root.windowRoot.screen) ? p : null;
-            }
-            shapeContainer: panelBackgroundsShape
-            defaultBackgroundColor: panelBackgroundColor
-          }
+          shapeContainer: panelBackgroundsShape
+          defaultBackgroundColor: root.panelBackgroundColor
         }
 
-        // Apply shadow to the panel backgrounds
-        NDropShadow {
-          anchors.fill: parent
-          source: panelBackgroundsShape
+        // Slot 1: closing panel (during transitions)
+        PanelBackground {
+          assignedPanel: {
+            var p = PanelService.backgroundSlotAssignments[1];
+            return (p && p.screen === root.windowRoot.screen) ? p : null;
+          }
+          shapeContainer: panelBackgroundsShape
+          defaultBackgroundColor: root.panelBackgroundColor
         }
       }
 
-      // Bar background with separate opacity
-      Item {
+      NDropShadow {
         anchors.fill: parent
+        source: panelBackgroundsShape
+      }
+    }
+  }
 
-        layer.enabled: true
-        opacity: Style.effectiveBarOpacity
+  // ...and the bar background with its own opacity (only when it is actually shown)
+  Loader {
+    anchors.fill: parent
+    active: root.separateLayout && root.barBackgroundEnabled
 
-        Shape {
-          id: barBackgroundShape
-          anchors.fill: parent
-          preferredRendererType: Shape.CurveRenderer
-          asynchronous: true
-          enabled: false
+    sourceComponent: Item {
+      anchors.fill: parent
 
-          BarBackground {
-            bar: root.bar
-            shapeContainer: barBackgroundShape
-            windowRoot: root.windowRoot
-            backgroundColor: panelBackgroundColor
-          }
+      layer.enabled: true
+      opacity: Style.effectiveBarOpacity
+
+      Shape {
+        id: barBackgroundShape
+        anchors.fill: parent
+        preferredRendererType: Shape.CurveRenderer
+        asynchronous: true
+        enabled: false
+
+        BarBackground {
+          bar: root.bar
+          shapeContainer: barBackgroundShape
+          windowRoot: root.windowRoot
+          backgroundColor: root.panelBackgroundColor
         }
+      }
 
-        NDropShadow {
-          anchors.fill: parent
-          source: barBackgroundShape
-        }
+      NDropShadow {
+        anchors.fill: parent
+        source: barBackgroundShape
       }
     }
   }

@@ -496,11 +496,7 @@ Item {
           }
         }
       }
-      items.push({
-                   "label": I18n.tr("actions.widget-settings"),
-                   "action": "widget-settings",
-                   "icon": "settings"
-                 });
+      items.push();
       return items;
     }
 
@@ -516,8 +512,6 @@ Item {
                      root.toggleAppPin(selectedAppId);
                    } else if (action === "close" && selectedWindow) {
                      CompositorService.closeWindow(selectedWindow);
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    } else if (action.startsWith("desktop-action-") && item && item.desktopAction) {
                      if (item.desktopAction.command && item.desktopAction.command.length > 0) {
                        Quickshell.execDetached(item.desktopAction.command);

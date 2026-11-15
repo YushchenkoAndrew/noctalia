@@ -6,7 +6,6 @@ import Quickshell.Services.Notifications
 import Quickshell.Wayland
 import qs.Commons
 import qs.Modules.MainScreen
-import qs.Modules.Panels.Settings
 import qs.Services.System
 import qs.Services.UI
 import qs.Widgets
@@ -424,15 +423,6 @@ SmartPanel {
               }
             }
 
-            NIconButton {
-              icon: "settings"
-              tooltipText: I18n.tr("common.settings")
-              baseSize: Style.baseWidgetSize * 0.8
-              onClicked: {
-                SettingsPanelService.openToTab(SettingsPanel.Tab.Notifications, 0, screen);
-                root.close();
-              }
-            }
 
             NIconButton {
               icon: "close"

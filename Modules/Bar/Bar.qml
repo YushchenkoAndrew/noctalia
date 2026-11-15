@@ -7,7 +7,6 @@ import Quickshell.Wayland
 import qs.Commons
 import qs.Modules.Bar.Extras
 import qs.Modules.Notification
-import qs.Modules.Panels.Settings
 import qs.Services.Compositor
 import qs.Services.Media
 import qs.Services.UI
@@ -364,10 +363,6 @@ Item {
           if (action === "controlCenter") {
             var controlCenterPanel = PanelService.getPanel("controlCenterPanel", screen);
             controlCenterPanel?.toggle(null, followMouse ? mapToItem(null, mouse.x, mouse.y) : "ControlCenter");
-            mouse.accepted = true;
-          } else if (action === "settings") {
-            var settingsPanel = PanelService.getPanel("settingsPanel", screen);
-            settingsPanel?.toggle(null, followMouse ? mapToItem(null, mouse.x, mouse.y) : null);
             mouse.accepted = true;
           } else if (action === "launcherPanel") {
             var launcherPanel = PanelService.getPanel("launcherPanel", screen);

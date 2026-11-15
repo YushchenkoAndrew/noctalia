@@ -51,7 +51,7 @@ in
           };
           colorSchemes = {
             darkMode = true;
-            useWallpaperColors = true;
+            predefinedScheme = "Eldritch";
           };
         }
       '';

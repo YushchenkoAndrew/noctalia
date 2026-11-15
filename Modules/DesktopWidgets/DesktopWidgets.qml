@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.Compositor
 import qs.Services.Noctalia
 import qs.Services.Power
@@ -512,13 +511,6 @@ Variants {
                 onClicked: Settings.data.desktopWidgets.gridSnap = !Settings.data.desktopWidgets.gridSnap
               }
 
-              NIconButton {
-                icon: "settings"
-                tooltipText: I18n.tr("actions.open-settings")
-                onClicked: {
-                  SettingsPanelService.toggle(SettingsPanel.Tab.DesktopWidgets, -1, screenLoader.modelData);
-                }
-              }
 
               NButton {
                 text: I18n.tr("panels.desktop-widgets.edit-mode-exit-button")

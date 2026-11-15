@@ -336,16 +336,8 @@ Item {
                              return;
                            }
 
-                           if (mouse.button === Qt.RightButton) {
-                             if (dockRoot.currentContextMenu === launcherContextMenu && launcherContextMenu.visible) {
-                               dockRoot.closeAllContextMenus();
-                               return;
-                             }
-                             dockRoot.closeAllContextMenus();
-                             TooltipService.hideImmediately();
-                             launcherContextMenu.show(launcherButton, null, targetScreen);
+                           if (mouse.button === Qt.RightButton)
                              return;
-                           }
 
                            if (mouse.button === Qt.LeftButton || mouse.button === Qt.MiddleButton) {
                              dockRoot.closeAllContextMenus();

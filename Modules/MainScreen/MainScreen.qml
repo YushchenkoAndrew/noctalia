@@ -14,7 +14,6 @@ import qs.Modules.Panels.Audio
 import qs.Modules.Panels.Battery
 import qs.Modules.Panels.Bluetooth
 import qs.Modules.Panels.Brightness
-import qs.Modules.Panels.Changelog
 import qs.Modules.Panels.Clock
 import qs.Modules.Panels.ControlCenter
 import qs.Modules.Panels.Dock
@@ -24,11 +23,8 @@ import qs.Modules.Panels.Network
 import qs.Modules.Panels.NotificationHistory
 import qs.Modules.Panels.Plugins
 import qs.Modules.Panels.SessionMenu
-import qs.Modules.Panels.Settings
-import qs.Modules.Panels.SetupWizard
 import qs.Modules.Panels.SystemStats
 import qs.Modules.Panels.Tray
-import qs.Modules.Panels.Wallpaper
 import qs.Services.Compositor
 import qs.Services.Power
 import qs.Services.UI
@@ -334,11 +330,6 @@ PanelWindow {
       screen: root.screen
     }
 
-    ChangelogPanel {
-      id: changelogPanel
-      objectName: "changelogPanel-" + (root.screen?.name || "unknown")
-      screen: root.screen
-    }
 
     ClockPanel {
       id: clockPanel
@@ -364,17 +355,7 @@ PanelWindow {
       screen: root.screen
     }
 
-    SettingsPanel {
-      id: settingsPanel
-      objectName: "settingsPanel-" + (root.screen?.name || "unknown")
-      screen: root.screen
-    }
 
-    SetupWizard {
-      id: setupWizardPanel
-      objectName: "setupWizardPanel-" + (root.screen?.name || "unknown")
-      screen: root.screen
-    }
 
     TrayDrawerPanel {
       id: trayDrawerPanel
@@ -382,11 +363,6 @@ PanelWindow {
       screen: root.screen
     }
 
-    WallpaperPanel {
-      id: wallpaperPanel
-      objectName: "wallpaperPanel-" + (root.screen?.name || "unknown")
-      screen: root.screen
-    }
 
     NetworkPanel {
       id: networkPanel

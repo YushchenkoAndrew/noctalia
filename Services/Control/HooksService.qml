@@ -19,42 +19,9 @@ Singleton {
     }
   }
 
-  // Pending wallpaper hook when waiting for color generation
-  property var pendingWallpaperHook: null
-
-  Connections {
-    target: WallpaperService
-    function onWallpaperChanged(screenName, path) {
-      // Check if we need to wait for color generation
-      if (Settings.data.colorSchemes.useWallpaperColors) {
-        var effectiveMonitor = Settings.data.colorSchemes.monitorForColors;
-        if (effectiveMonitor === "" || effectiveMonitor === undefined) {
-          effectiveMonitor = Screen.name;
-        }
-
-        if (screenName === effectiveMonitor) {
-          // Store pending hook and wait for colors to be generated
-          root.pendingWallpaperHook = {
-            path: path,
-            screenName: screenName
-          };
-          return;
-        }
-      }
-      // No color generation, execute immediately
-      executeWallpaperHook(path, screenName);
-    }
-  }
-
   Connections {
     target: TemplateProcessor
     function onColorsGenerated() {
-      // Execute pending wallpaper hook after colors are ready
-      if (root.pendingWallpaperHook) {
-        const hook = root.pendingWallpaperHook;
-        root.pendingWallpaperHook = null;
-        executeWallpaperHook(hook.path, hook.screenName);
-      }
       executeColorGenerationHook();
     }
   }
@@ -107,28 +74,6 @@ Singleton {
     }
   }
 
-  // Execute wallpaper change hook
-  function executeWallpaperHook(wallpaperPath, screenName) {
-    if (!Settings.data.hooks?.enabled) {
-      return;
-    }
-
-    const script = Settings.data.hooks?.wallpaperChange;
-    if (!script || script === "") {
-      return;
-    }
-
-    try {
-      const theme = Settings.data.colorSchemes.darkMode ? "dark" : "light";
-      let command = script.replace(/\$1/g, wallpaperPath);
-      command = command.replace(/\$2/g, screenName || "");
-      command = command.replace(/\$3/g, theme);
-      Quickshell.execDetached(["sh", "-lc", command]);
-      Logger.d("HooksService", `Executed wallpaper hook: ${command}`);
-    } catch (e) {
-      Logger.e("HooksService", `Failed to execute wallpaper hook: ${e}`);
-    }
-  }
 
   // Execute dark mode change hook
   function executeDarkModeHook(isDarkMode) {

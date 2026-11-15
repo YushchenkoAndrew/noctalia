@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Widgets
 import qs.Commons
 import qs.Modules.Bar.Extras
-import qs.Modules.Panels.Settings
 import qs.Services.System
 import qs.Services.UI
 import qs.Widgets
@@ -76,16 +75,6 @@ NIconButton {
         "action": "open-launcher",
         "icon": "search"
       },
-      {
-        "label": I18n.tr("actions.open-settings"),
-        "action": "open-settings",
-        "icon": "adjustments"
-      },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
     ]
 
     onTriggered: action => {
@@ -94,12 +83,6 @@ NIconButton {
 
                    if (action === "open-launcher") {
                      PanelService.toggleLauncher(screen);
-                   } else if (action === "open-settings") {
-                     var panel = PanelService.getPanel("settingsPanel", screen);
-                     panel.requestedTab = SettingsPanel.Tab.General;
-                     panel.toggle();
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    }
                  }
   }

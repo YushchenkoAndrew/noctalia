@@ -33,49 +33,16 @@ Singleton {
                            "NotificationHistory": notificationHistoryComponent,
                            "PowerProfile": powerProfileComponent,
                            "SessionMenu": sessionMenuComponent,
-                           "Settings": settingsComponent,
                            "Spacer": spacerComponent,
                            "SystemMonitor": systemMonitorComponent,
                            "Taskbar": taskbarComponent,
                            "Tray": trayComponent,
                            "Volume": volumeComponent,
                            "VPN": vpnComponent,
-                           "WallpaperSelector": wallpaperSelectorComponent,
                            "Workspace": workspaceComponent
                          })
 
-  property var widgetSettingsMap: ({
-                                     "ActiveWindow": "WidgetSettings/ActiveWindowSettings.qml",
-                                     "AudioVisualizer": "WidgetSettings/AudioVisualizerSettings.qml",
-                                     "Battery": "WidgetSettings/BatterySettings.qml",
-                                     "Bluetooth": "WidgetSettings/BluetoothSettings.qml",
-                                     "Brightness": "WidgetSettings/BrightnessSettings.qml",
-                                     "Clock": "WidgetSettings/ClockSettings.qml",
-                                     "ControlCenter": "WidgetSettings/ControlCenterSettings.qml",
-                                     "CustomButton": "WidgetSettings/CustomButtonSettings.qml",
-                                     "DarkMode": "WidgetSettings/DarkModeSettings.qml",
-                                     "KeepAwake": "WidgetSettings/KeepAwakeSettings.qml",
-                                     "KeyboardLayout": "WidgetSettings/KeyboardLayoutSettings.qml",
-                                     "Launcher": "WidgetSettings/LauncherSettings.qml",
-                                     "LockKeys": "WidgetSettings/LockKeysSettings.qml",
-                                     "MediaMini": "WidgetSettings/MediaMiniSettings.qml",
-                                     "Microphone": "WidgetSettings/MicrophoneSettings.qml",
-                                     "Network": "WidgetSettings/NetworkSettings.qml",
-                                     "NightLight": "WidgetSettings/NightLightSettings.qml",
-                                     "NoctaliaPerformance": "WidgetSettings/NoctaliaPerformanceSettings.qml",
-                                     "NotificationHistory": "WidgetSettings/NotificationHistorySettings.qml",
-                                     "PowerProfile": "WidgetSettings/PowerProfileSettings.qml",
-                                     "SessionMenu": "WidgetSettings/SessionMenuSettings.qml",
-                                     "Settings": "WidgetSettings/SettingsSettings.qml",
-                                     "Spacer": "WidgetSettings/SpacerSettings.qml",
-                                     "SystemMonitor": "WidgetSettings/SystemMonitorSettings.qml",
-                                     "Taskbar": "WidgetSettings/TaskbarSettings.qml",
-                                     "Tray": "WidgetSettings/TraySettings.qml",
-                                     "Volume": "WidgetSettings/VolumeSettings.qml",
-                                     "VPN": "WidgetSettings/VPNSettings.qml",
-                                     "WallpaperSelector": "WidgetSettings/WallpaperSelectorSettings.qml",
-                                     "Workspace": "WidgetSettings/WorkspaceSettings.qml"
-                                   })
+  property var widgetSettingsMap: ({})
 
   property var widgetMetadata: ({
                                   "ActiveWindow": {
@@ -225,9 +192,6 @@ Singleton {
                                   "SessionMenu": {
                                     "iconColor": "error"
                                   },
-                                  "Settings": {
-                                    "iconColor": "none"
-                                  },
                                   "Spacer": {
                                     "width": 20
                                   },
@@ -316,9 +280,6 @@ Singleton {
                                     "middleClickCommand": "pwvucontrol || pavucontrol",
                                     "iconColor": "none",
                                     "textColor": "none"
-                                  },
-                                  "WallpaperSelector": {
-                                    "iconColor": "none"
                                   }
                                 })
 
@@ -380,9 +341,6 @@ Singleton {
   property Component sessionMenuComponent: Component {
     SessionMenu {}
   }
-  property Component settingsComponent: Component {
-    Settings {}
-  }
   property Component controlCenterComponent: Component {
     ControlCenter {}
   }
@@ -403,9 +361,6 @@ Singleton {
   }
   property Component networkComponent: Component {
     Network {}
-  }
-  property Component wallpaperSelectorComponent: Component {
-    WallpaperSelector {}
   }
   property Component workspaceComponent: Component {
     Workspace {}

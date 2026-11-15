@@ -3,10 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Bluetooth
-import "../Settings/Tabs/Connections" as BluetoothPrefs
 import qs.Commons
 import qs.Modules.MainScreen
-import qs.Modules.Panels.Settings
 import qs.Services.Hardware
 import qs.Services.Networking
 import qs.Services.UI
@@ -67,12 +65,6 @@ SmartPanel {
             onClicked: Settings.data.network.bluetoothAutoConnect = !Settings.data.network.bluetoothAutoConnect
           }
 
-          NIconButton {
-            icon: "settings"
-            tooltipText: I18n.tr("tooltips.open-settings")
-            baseSize: Style.baseWidgetSize * 0.8
-            onClicked: SettingsPanelService.openToTab(SettingsPanel.Tab.Connections, 1, screen)
-          }
 
           NIconButton {
             icon: "close"
@@ -181,12 +173,6 @@ SmartPanel {
                 Layout.alignment: Qt.AlignHCenter
               }
 
-              NButton {
-                text: I18n.tr("common.settings")
-                icon: "settings"
-                Layout.alignment: Qt.AlignHCenter
-                onClicked: SettingsPanelService.openToTab(SettingsPanel.Tab.Connections, 1, screen)
-              }
 
               Item {
                 Layout.fillHeight: true
@@ -195,7 +181,7 @@ SmartPanel {
           }
 
           // Pull connected/paired lists from BluetoothSubTab
-          BluetoothPrefs.BluetoothSubTab {
+          BluetoothSubTab {
             id: btSource
             Layout.fillWidth: true
             showOnlyLists: true

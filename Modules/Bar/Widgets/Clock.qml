@@ -151,11 +151,6 @@ Item {
         "action": "open-calendar",
         "icon": "calendar"
       },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
     ]
 
     onTriggered: action => {
@@ -165,8 +160,6 @@ Item {
 
                    if (action === "open-calendar") {
                      PanelService.getPanel("clockPanel", screen)?.toggle(root);
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    }
                  }
   }

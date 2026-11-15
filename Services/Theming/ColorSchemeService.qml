@@ -35,7 +35,7 @@ Singleton {
     target: Settings.data.colorSchemes
     function onDarkModeChanged() {
       Logger.d("ColorScheme", "Detected dark mode change");
-      if (!Settings.data.colorSchemes.useWallpaperColors && Settings.data.colorSchemes.predefinedScheme) {
+      if (Settings.data.colorSchemes.predefinedScheme) {
         // Re-apply current scheme to pick the right variant
         applyScheme(Settings.data.colorSchemes.predefinedScheme);
       }
@@ -175,9 +175,7 @@ Singleton {
           if (basename !== stored) {
             Settings.data.colorSchemes.predefinedScheme = basename;
           }
-          if (!Settings.data.colorSchemes.useWallpaperColors) {
-            applyScheme(basename);
-          }
+          applyScheme(basename);
         }
       } else {
         Logger.e("ColorScheme", "Failed to find color scheme files");

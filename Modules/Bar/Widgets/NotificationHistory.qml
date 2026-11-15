@@ -88,11 +88,6 @@ NIconButton {
         "action": "clear-history",
         "icon": "trash"
       },
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
     ]
 
     onTriggered: action => {
@@ -103,8 +98,6 @@ NIconButton {
                      NotificationService.doNotDisturb = !NotificationService.doNotDisturb;
                    } else if (action === "clear-history") {
                      NotificationService.clearHistory();
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    }
                  }
   }

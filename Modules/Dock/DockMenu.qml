@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Widgets
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.UI
 import qs.Widgets
 
@@ -149,22 +148,7 @@ PopupWindow {
 
   function initItems() {
     if (menuMode === "launcher") {
-      root.items = [
-            {
-              "icon": "adjustments",
-              "text": I18n.tr("actions.dock-settings"),
-              "action": function () {
-                handleDockSettings();
-              }
-            },
-            {
-              "icon": "adjustments",
-              "text": I18n.tr("actions.launcher-settings"),
-              "action": function () {
-                handleLauncherSettings();
-              }
-            }
-          ];
+      root.items = [];
       calculateMenuWidth();
       return;
     }
@@ -532,30 +516,8 @@ PopupWindow {
     closeAndReset();
   }
 
-  function handleLauncherSettings() {
-    if (targetScreen) {
-      var panel = PanelService.getPanel("settingsPanel", targetScreen);
-      panel.requestedTab = SettingsPanel.Tab.Launcher;
-      panel.toggle();
-    }
-    closeAndReset();
-  }
 
-  function handleDockSettings() {
-    if (targetScreen) {
-      var panel = PanelService.getPanel("settingsPanel", targetScreen);
-      panel.requestedTab = SettingsPanel.Tab.Dock;
-      panel.toggle();
-    }
-    closeAndReset();
-  }
 
-  function handleLauncherWidgetSettings() {
-    if (targetScreen && launcherWidgetSection && launcherWidgetIndex >= 0) {
-      BarService.openWidgetSettings(targetScreen, launcherWidgetSection, launcherWidgetIndex, "Launcher", launcherWidgetSettings || {});
-    }
-    closeAndReset();
-  }
 
   // Short delay to ignore spurious events
   Timer {

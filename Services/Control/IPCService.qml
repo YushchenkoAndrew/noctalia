@@ -7,7 +7,6 @@ import Quickshell.Wayland
 import Quickshell.Widgets
 
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.Compositor
 import qs.Services.Hardware
 import qs.Services.Location
@@ -78,87 +77,6 @@ Singleton {
       } else {
         Settings.setScreenOverride(screen, "position", position);
       }
-    }
-  }
-
-  // Settings IPC helpers (outside IpcHandler to avoid QVariant IPC warnings)
-  readonly property var _settingsTabMap: ({
-                                            "about": SettingsPanel.Tab.About,
-                                            "audio": SettingsPanel.Tab.Audio,
-                                            "bar": SettingsPanel.Tab.Bar,
-                                            "colorscheme": SettingsPanel.Tab.ColorScheme,
-                                            "lockscreen": SettingsPanel.Tab.LockScreen,
-                                            "controlcenter": SettingsPanel.Tab.ControlCenter,
-                                            "desktopwidgets": SettingsPanel.Tab.DesktopWidgets,
-                                            "osd": SettingsPanel.Tab.OSD,
-                                            "display": SettingsPanel.Tab.Display,
-                                            "dock": SettingsPanel.Tab.Dock,
-                                            "general": SettingsPanel.Tab.General,
-                                            "hooks": SettingsPanel.Tab.Hooks,
-                                            "launcher": SettingsPanel.Tab.Launcher,
-                                            "location": SettingsPanel.Tab.Location,
-                                            "connections": SettingsPanel.Tab.Connections,
-                                            "notifications": SettingsPanel.Tab.Notifications,
-                                            "plugins": SettingsPanel.Tab.Plugins,
-                                            "sessionmenu": SettingsPanel.Tab.SessionMenu,
-                                            "system": SettingsPanel.Tab.System,
-                                            "systemmonitor": SettingsPanel.Tab.System,
-                                            "userinterface": SettingsPanel.Tab.UserInterface,
-                                            "wallpaper": SettingsPanel.Tab.Wallpaper,
-                                            "idle": SettingsPanel.Tab.Idle
-                                          })
-
-  function _parseSettingsTabArg(tabArg) {
-    var parts = tabArg.split("/");
-    var tabId = _resolveSettingsTab(parts[0]);
-    var subTabId = parts.length > 1 ? parseInt(parts[1]) : -1;
-    return {
-      "tab": tabId,
-      "subTab": isNaN(subTabId) ? -1 : subTabId
-    };
-  }
-
-  function _resolveSettingsTab(tabName) {
-    if (!tabName)
-      return SettingsPanel.Tab.General;
-    var key = tabName.toLowerCase().replace(/[-_]/g, "");
-    if (key in _settingsTabMap)
-      return _settingsTabMap[key];
-    Logger.w("IPC", "Unknown settings tab: " + tabName);
-    return SettingsPanel.Tab.General;
-  }
-
-  function _settingsToggle(tabId, subTabId) {
-    root.screenDetector.withCurrentScreen(screen => {
-                                            SettingsPanelService.toggle(tabId, subTabId, screen);
-                                          });
-  }
-
-  function _settingsOpen(tabId, subTabId) {
-    root.screenDetector.withCurrentScreen(screen => {
-                                            SettingsPanelService.openToTab(tabId, subTabId, screen);
-                                          });
-  }
-
-  IpcHandler {
-    target: "settings"
-
-    function toggle() {
-      root._settingsToggle(SettingsPanel.Tab.General, -1);
-    }
-
-    function toggleTab(tab: string) {
-      var parsed = root._parseSettingsTabArg(tab);
-      root._settingsToggle(parsed.tab, parsed.subTab);
-    }
-
-    function open() {
-      root._settingsOpen(SettingsPanel.Tab.General, -1);
-    }
-
-    function openTab(tab: string) {
-      var parsed = root._parseSettingsTabArg(tab);
-      root._settingsOpen(parsed.tab, parsed.subTab);
     }
   }
 
@@ -390,19 +308,6 @@ Singleton {
                                               }
                                             }, Settings.data.appLauncher.overviewLayer);
     }
-    function settings() {
-      root.screenDetector.withCurrentScreen(screen => {
-                                              var searchText = PanelService.getLauncherSearchText(screen);
-                                              var isInSettingsMode = searchText.startsWith(">settings");
-                                              if (!PanelService.isLauncherOpen(screen)) {
-                                                PanelService.openLauncherWithSearch(screen, ">settings ");
-                                              } else if (isInSettingsMode) {
-                                                PanelService.closeLauncher(screen);
-                                              } else {
-                                                PanelService.setLauncherSearchText(screen, ">settings ");
-                                              }
-                                            }, Settings.data.appLauncher.overviewLayer);
-    }
   }
 
   IpcHandler {
@@ -590,65 +495,6 @@ Singleton {
     target: "dock"
     function toggle() {
       Settings.data.dock.enabled = !Settings.data.dock.enabled;
-    }
-  }
-
-  // Wallpaper IPC: trigger a new random wallpaper
-  IpcHandler {
-    target: "wallpaper"
-    function toggle() {
-      if (Settings.data.wallpaper.enabled) {
-        root.screenDetector.withCurrentScreen(screen => {
-                                                var wallpaperPanel = PanelService.getPanel("wallpaperPanel", screen);
-                                                wallpaperPanel?.toggle();
-                                              });
-      }
-    }
-
-    function random(screen: string) {
-      if (Settings.data.wallpaper.enabled) {
-        if (!screen || screen === "all" || screen.trim().length === 0) {
-          screen = undefined;
-        }
-        WallpaperService.setRandomWallpaper(screen);
-      }
-    }
-
-    function get(screen: string): string {
-      if (screen === "all" || screen === "") {
-        if (Quickshell.screens.length > 1) {
-          return JSON.stringify(WallpaperService.getWallpapersEffectiveMap());
-        }
-        return WallpaperService.getWallpaper(Quickshell.screens[0].name) ?? "";
-      } else {
-        var found = Quickshell.screens.find(s => s.name === screen);
-        if (!found) {
-          Logger.w("IPC", "wallpaper get: unknown screen: " + screen);
-          return "";
-        }
-        return WallpaperService.getWallpaper(screen) ?? "";
-      }
-    }
-
-    function set(path: string, screen: string) {
-      if (screen === "all" || screen === "") {
-        screen = undefined;
-      }
-      WallpaperService.changeWallpaper(path, screen);
-    }
-
-    function refresh() {
-      WallpaperService.refreshWallpapersList();
-    }
-
-    function toggleAutomation() {
-      Settings.data.wallpaper.automationEnabled = !Settings.data.wallpaper.automationEnabled;
-    }
-    function disableAutomation() {
-      Settings.data.wallpaper.automationEnabled = false;
-    }
-    function enableAutomation() {
-      Settings.data.wallpaper.automationEnabled = true;
     }
   }
 

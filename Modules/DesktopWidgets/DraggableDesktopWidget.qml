@@ -222,16 +222,8 @@ Item {
     }
   }
 
-  function openWidgetSettings() {
-    DesktopWidgetRegistry.openWidgetSettings(screen, widgetIndex, widgetData.id, widgetData);
-  }
-
   function handleContextMenuAction(action) {
-    if (action === "widget-settings") {
-      // Don't close - openWidgetSettings will use the popup window for the dialog
-      root.openWidgetSettings();
-      return true; // Signal that we're handling close ourselves
-    } else if (action === "reset") {
+    if (action === "reset") {
       // Reset scale and position to defaults
       root.widgetScale = 1.0;
       internal.baseX = root.defaultX;
@@ -326,26 +318,7 @@ Item {
 
   // Context menu model and handler - menu is created dynamically in PopupMenuWindow
   property var contextMenuModel: {
-    var hasSettings = false;
-    if (widgetData && widgetData.id) {
-      var widgetId = widgetData.id;
-      if (DesktopWidgetRegistry.isPluginWidget(widgetId)) {
-        var pluginId = widgetId.replace("plugin:", "");
-        var manifest = PluginRegistry.getPluginManifest(pluginId);
-        hasSettings = manifest && manifest.entryPoints && (manifest.entryPoints.settings || manifest.entryPoints.desktopWidgetSettings);
-      } else {
-        hasSettings = DesktopWidgetRegistry.widgetSettingsMap[widgetId] !== undefined;
-      }
-    }
-
     var items = [];
-    if (hasSettings) {
-      items.push({
-                   "label": I18n.tr("actions.widget-settings"),
-                   "action": "widget-settings",
-                   "icon": "settings"
-                 });
-    }
     items.push({
                  "label": I18n.tr("common.reset"),
                  "action": "reset",

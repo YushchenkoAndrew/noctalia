@@ -1,7 +1,6 @@
 import QtQuick.Layouts
 import Quickshell
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.System
 import qs.Services.UI
 import qs.Widgets
@@ -24,11 +23,5 @@ NIconButtonHot {
       Settings.data.nightLight.enabled = false;
       Settings.data.nightLight.forced = false;
     }
-  }
-
-  onRightClicked: {
-    var settingsPanel = PanelService.getPanel("settingsPanel", screen);
-    settingsPanel.requestedTab = SettingsPanel.Tab.Display;
-    settingsPanel.open();
   }
 }

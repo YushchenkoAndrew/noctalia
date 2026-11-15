@@ -47,28 +47,5 @@ NIconButton {
   border.width: Style.capsuleBorderWidth
   onClicked: PowerProfileService.cycleProfile()
 
-  NPopupContextMenu {
-    id: contextMenu
 
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
-
-  onRightClicked: {
-    PanelService.showContextMenu(contextMenu, root, screen);
-  }
 }

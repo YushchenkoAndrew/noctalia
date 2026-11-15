@@ -66,11 +66,7 @@ Item {
                      "icon": "shield-lock"
                    });
       }
-      items.push({
-                   "label": I18n.tr("actions.widget-settings"),
-                   "action": "widget-settings",
-                   "icon": "settings"
-                 });
+      items.push();
       return items;
     }
 
@@ -81,10 +77,7 @@ Item {
                    if (!action) {
                      return;
                    }
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                     return;
-                   }
+                   
                    if (action.startsWith("connect:")) {
                      const uuid = action.substring("connect:".length);
                      VPNService.connect(uuid);

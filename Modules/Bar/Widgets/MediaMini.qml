@@ -200,11 +200,7 @@ Item {
         }
       }
 
-      items.push({
-                   "label": I18n.tr("actions.widget-settings"),
-                   "action": "widget-settings",
-                   "icon": "settings"
-                 });
+      items.push();
       return items;
     }
 
@@ -223,8 +219,6 @@ Item {
                      if (!isNaN(idx)) {
                        MediaService.switchToPlayer(idx);
                      }
-                   } else if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
                    }
                  }
   }

@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import qs.Commons
-import qs.Modules.Panels.Settings
 import qs.Services.Power
 import qs.Services.UI
 import qs.Widgets
@@ -47,28 +46,5 @@ NIconButton {
   tooltipDirection: BarService.getTooltipDirection(screen?.name)
   onClicked: PowerProfileService.toggleNoctaliaPerformance()
 
-  NPopupContextMenu {
-    id: contextMenu
 
-    model: [
-      {
-        "label": I18n.tr("actions.widget-settings"),
-        "action": "widget-settings",
-        "icon": "settings"
-      },
-    ]
-
-    onTriggered: action => {
-                   contextMenu.close();
-                   PanelService.closeContextMenu(screen);
-
-                   if (action === "widget-settings") {
-                     BarService.openWidgetSettings(screen, section, sectionWidgetIndex, widgetId, widgetSettings);
-                   }
-                 }
-  }
-
-  onRightClicked: {
-    PanelService.showContextMenu(contextMenu, root, screen);
-  }
 }
