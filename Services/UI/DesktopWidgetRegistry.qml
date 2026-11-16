@@ -31,6 +31,9 @@ Singleton {
   property Component audioVisualizerComponent: Component {
     DesktopAudioVisualizer {}
   }
+  property Component catwalkComponent: Component {
+    DesktopCatwalk {}
+  }
 
   // Widget registry object mapping widget names to components
   // Created in Component.onCompleted to ensure Components are ready
@@ -50,6 +53,7 @@ Singleton {
     widgetsObj["Weather"] = weatherComponent;
     widgetsObj["SystemStat"] = systemStatComponent;
     widgetsObj["AudioVisualizer"] = audioVisualizerComponent;
+    widgetsObj["Catwalk"] = catwalkComponent;
     widgets = widgetsObj;
 
     var urlsObj = {};
@@ -58,6 +62,7 @@ Singleton {
     urlsObj["Weather"] = _widgetsDir + "DesktopWeather.qml";
     urlsObj["SystemStat"] = _widgetsDir + "DesktopSystemStat.qml";
     urlsObj["AudioVisualizer"] = _widgetsDir + "DesktopAudioVisualizer.qml";
+    urlsObj["Catwalk"] = _widgetsDir + "DesktopCatwalk.qml";
     widgetUrls = urlsObj;
 
     Logger.i("DesktopWidgetRegistry", "Service started");

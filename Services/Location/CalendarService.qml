@@ -115,8 +115,7 @@ Singleton {
       return;
     }
 
-    Khal.init();
-    EvolutionDataServer.init();
+    IcsCalendar.init();
   }
 
   function loadCalendars() {

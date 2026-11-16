@@ -145,8 +145,7 @@ Item {
       visible: !root.showOnlyLists
       Layout.fillWidth: true
       Layout.preferredHeight: masterControlCol.implicitHeight + Style.margin2L
-      color: Color.mSurface
-
+      color: Color.smartAlpha(Color.mSurface)
       ColumnLayout {
         id: masterControlCol
         anchors.fill: parent
@@ -308,8 +307,7 @@ Item {
       visible: !root.showOnlyLists && BluetoothService.enabled
       Layout.fillWidth: true
       Layout.preferredHeight: miscSettingsCol.implicitHeight + Style.margin2XL
-      color: Color.mSurface
-
+      color: Color.smartAlpha(Color.mSurface)
       ColumnLayout {
         id: miscSettingsCol
         anchors.fill: parent
@@ -549,7 +547,7 @@ Item {
           Layout.fillWidth: true
           implicitHeight: infoColumn.implicitHeight + Style.margin2S
           radius: Style.radiusXS
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           border.width: Style.borderS
           border.color: Style.boxBorderColor
           clip: true
@@ -702,7 +700,7 @@ Item {
     anchors.centerIn: parent
     width: Math.min(parent.width * 0.9, 400)
     height: pinCol.implicitHeight + Style.margin2L
-    color: Color.mSurface
+    color: Color.smartAlpha(Color.mSurface)
     radius: Style.radiusM
     border.color: Style.boxBorderColor
     border.width: Style.borderS

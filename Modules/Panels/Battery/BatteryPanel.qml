@@ -197,8 +197,7 @@ SmartPanel {
                       Layout.fillWidth: true
                       height: Math.round(8 * Style.uiScaleRatio)
                       radius: Math.min(Style.radiusL, height / 2)
-                      color: Color.mSurface
-
+                      color: Color.smartAlpha(Color.mSurface)
                       Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         height: parent.height
@@ -261,8 +260,7 @@ SmartPanel {
                   Layout.fillWidth: true
                   height: Math.round(8 * Style.uiScaleRatio)
                   radius: Math.min(Style.radiusL, height / 2)
-                  color: Color.mSurface
-
+                  color: Color.smartAlpha(Color.mSurface)
                   Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     height: parent.height

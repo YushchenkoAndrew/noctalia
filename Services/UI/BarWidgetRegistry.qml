@@ -15,6 +15,10 @@ Singleton {
                            "ActiveWindow": activeWindowComponent,
                            "AudioVisualizer": audioVisualizerComponent,
                            "Battery": batteryComponent,
+                           "Catwalk": catwalkComponent,
+                           "ClipboardHistory": clipboardHistoryComponent,
+                           "ScreenRecorder": screenRecorderComponent,
+                           "UsbDrives": usbDrivesComponent,
                            "Bluetooth": bluetoothComponent,
                            "Brightness": brightnessComponent,
                            "Clock": clockComponent,
@@ -292,6 +296,18 @@ Singleton {
   }
   property Component batteryComponent: Component {
     Battery {}
+  }
+  property Component catwalkComponent: Component {
+    Catwalk {}
+  }
+  property Component clipboardHistoryComponent: Component {
+    ClipboardHistory {}
+  }
+  property Component screenRecorderComponent: Component {
+    ScreenRecorder {}
+  }
+  property Component usbDrivesComponent: Component {
+    UsbDrives {}
   }
   property Component bluetoothComponent: Component {
     Bluetooth {}

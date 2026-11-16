@@ -11,6 +11,7 @@ import qs.Commons
 import qs.Modules.Bar
 import qs.Modules.Bar.Extras
 import qs.Modules.Panels.Audio
+import qs.Modules.Panels.Builtin
 import qs.Modules.Panels.Battery
 import qs.Modules.Panels.Bluetooth
 import qs.Modules.Panels.Brightness
@@ -203,10 +204,10 @@ PanelWindow {
     id: blurRegion
     // ── Non-framed bar (simple/floating): single rectangle with bar corner states ──
     Region {
-      x: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden) ? barPlaceholder.x : 0
-      y: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden) ? barPlaceholder.y : 0
-      width: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden) ? barPlaceholder.width : 0
-      height: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden) ? barPlaceholder.height : 0
+      x: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? barPlaceholder.x : 0
+      y: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? barPlaceholder.y : 0
+      width: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? barPlaceholder.width : 0
+      height: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? barPlaceholder.height : 0
       radius: Style.radiusL
       topLeftCorner: barPlaceholder.topLeftCornerState
       topRightCorner: barPlaceholder.topRightCornerState
@@ -218,8 +219,8 @@ PanelWindow {
     Region {
       x: 0
       y: 0
-      width: (barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden) ? root.width : 0
-      height: (barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden) ? root.height : 0
+      width: (barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? root.width : 0
+      height: (barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? root.height : 0
 
       Region {
         intersection: Intersection.Subtract
@@ -385,18 +386,47 @@ PanelWindow {
     // ----------------------------------------------
     // Plugin panel slots
     // ----------------------------------------------
-    PluginPanelSlot {
-      id: pluginPanel1
-      objectName: "pluginPanel1-" + (root.screen?.name || "unknown")
+    BuiltinPanel {
+      id: clipboardPanel
+      objectName: "clipboardPanel-" + (root.screen?.name || "unknown")
       screen: root.screen
-      slotNumber: 1
+      builtinId: "clipboard"
+      contentSource: Qt.resolvedUrl("../Builtin/ClipboardPanelContent.qml")
     }
 
-    PluginPanelSlot {
-      id: pluginPanel2
-      objectName: "pluginPanel2-" + (root.screen?.name || "unknown")
+    BuiltinPanel {
+      id: usbDrivesPanel
+      objectName: "usbDrivesPanel-" + (root.screen?.name || "unknown")
       screen: root.screen
-      slotNumber: 2
+      builtinId: "usb-drive-manager"
+      contentSource: Qt.resolvedUrl("../Builtin/UsbDrivesPanelContent.qml")
+    }
+
+    BuiltinPanel {
+      id: catwalkPanel
+      objectName: "catwalkPanel-" + (root.screen?.name || "unknown")
+      screen: root.screen
+      builtinId: "catwalk"
+      contentSource: Qt.resolvedUrl("../Builtin/CatwalkPanelContent.qml")
+    }
+
+    // External plugin panel slots only exist when the plugin system is enabled in settings.json
+    Loader {
+      active: Settings.data.plugins.enabled
+      sourceComponent: PluginPanelSlot {
+        objectName: "pluginPanel1-" + (root.screen?.name || "unknown")
+        screen: root.screen
+        slotNumber: 1
+      }
+    }
+
+    Loader {
+      active: Settings.data.plugins.enabled
+      sourceComponent: PluginPanelSlot {
+        objectName: "pluginPanel2-" + (root.screen?.name || "unknown")
+        screen: root.screen
+        slotNumber: 2
+      }
     }
 
     // ----------------------------------------------

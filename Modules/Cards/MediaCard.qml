@@ -58,7 +58,7 @@ NBox {
     // Solid color background (always present as base layer)
     Rectangle {
       anchors.fill: parent
-      color: Color.mSurface
+      color: Color.smartAlpha(Color.mSurface)
     }
 
     // Background image that covers everything
@@ -82,7 +82,7 @@ NBox {
     // Dark overlay for readability
     Rectangle {
       anchors.fill: parent
-      color: Color.mSurface
+      color: Color.smartAlpha(Color.mSurface)
       opacity: 0.65
       radius: Style.radiusM
     }

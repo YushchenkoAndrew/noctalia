@@ -95,7 +95,7 @@ RowLayout {
     implicitWidth: 120
     implicitHeight: Math.round((root.baseSize - 4) / 2) * 2
     radius: Style.iRadiusS
-    color: Color.mSurfaceVariant
+    color: Color.smartAlpha(Color.mSurfaceVariant)
     border.color: (root.hovering || decreaseArea.containsMouse || increaseArea.containsMouse) ? Color.mHover : Color.mOutline
     border.width: Style.borderS
 

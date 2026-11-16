@@ -758,7 +758,7 @@ Rectangle {
 
         NBox {
           anchors.fill: parent
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           forceOpaque: true
           Layout.fillWidth: true
           Layout.fillHeight: true

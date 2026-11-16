@@ -17,6 +17,7 @@ import qs.Commons
 
 // Modules
 import qs.Modules.Background
+import qs.Modules.Builtin
 import qs.Modules.Bar
 import qs.Modules.DesktopWidgets
 import qs.Modules.Dock
@@ -48,9 +49,6 @@ ShellRoot {
   Component.onCompleted: {
     Logger.i("Shell", "---------------------------");
     Logger.i("Shell", "Noctalia Hello!");
-
-    // Initialize plugin system early so Settings can validate plugin widgets
-    PluginRegistry.init();
   }
 
   Connections {
@@ -76,6 +74,10 @@ ShellRoot {
     target: Settings ? Settings : null
     function onSettingsLoaded() {
       settingsLoaded = true;
+      // External plugin system is opt-in (settings.json: plugins.enabled)
+      if (Settings.data.plugins.enabled) {
+        PluginRegistry.init();
+      }
     }
   }
 
@@ -112,6 +114,7 @@ ShellRoot {
           NotificationRulesService.init();
           CustomButtonIPCService.init();
           IPCService.init(screenDetector);
+          Builtin.init();
 
           // Force ClipboardService initialization so clipboard watchers
           // start immediately instead of waiting for first launcher open
@@ -148,14 +151,18 @@ ShellRoot {
 
       // IPCService is a singleton, initialized via init() in deferred services block
 
-      // Container for plugins Main.qml instances (must be in graphics scene)
+      // Container for the Main instances of built-in features (and external plugins, if enabled)
       Item {
         id: pluginContainer
         visible: false
 
         Component.onCompleted: {
-          PluginService.pluginContainer = pluginContainer;
-          PluginService.screenDetector = screenDetector;
+          Builtin.container = pluginContainer;
+          Builtin.screenDetector = screenDetector;
+          if (Settings.data.plugins.enabled) {
+            PluginService.pluginContainer = pluginContainer;
+            PluginService.screenDetector = screenDetector;
+          }
         }
       }
     }

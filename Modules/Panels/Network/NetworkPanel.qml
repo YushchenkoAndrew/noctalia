@@ -609,7 +609,7 @@ SmartPanel {
                           id: ethInfoInline
                           visible: ethernetInfoExpanded && NetworkService.activeEthernetIf === modelData.ifname
                           Layout.fillWidth: true
-                          color: Color.mSurfaceVariant
+                          color: Color.smartAlpha(Color.mSurfaceVariant)
                           radius: Style.radiusXS
                           border.width: Style.borderS
                           border.color: Style.boxBorderColor

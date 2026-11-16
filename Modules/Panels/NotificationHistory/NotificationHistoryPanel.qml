@@ -690,7 +690,7 @@ SmartPanel {
                     Rectangle {
                       anchors.fill: parent
                       radius: Style.radiusM
-                      color: Color.mSurfaceVariant
+                      color: Color.smartAlpha(Color.mSurfaceVariant)
                       border.color: {
                         if (notificationDelegate.isFocused)
                           return Color.mPrimary;

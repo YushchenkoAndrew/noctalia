@@ -159,7 +159,7 @@ SmartPanel {
               padding: Style.marginS
 
               background: Rectangle {
-                color: Color.mSurfaceVariant
+                color: Color.smartAlpha(Color.mSurfaceVariant)
                 border.color: Color.mOutline
                 border.width: Style.borderS
                 radius: Style.iRadiusM

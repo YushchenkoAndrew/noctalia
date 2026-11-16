@@ -57,7 +57,7 @@ NBox {
         Rectangle {
           anchors.fill: parent
           radius: Style.radiusXS
-          color: Color.mSurface
+          color: Color.smartAlpha(Color.mSurface)
           visible: Settings.data.appLauncher.showIconBackground && !modelData.isImage
         }
 
@@ -87,8 +87,7 @@ NBox {
           Rectangle {
             anchors.fill: parent
             visible: parent.status === Image.Loading
-            color: Color.mSurfaceVariant
-
+            color: Color.smartAlpha(Color.mSurfaceVariant)
             BusyIndicator {
               anchors.centerIn: parent
               running: true
@@ -170,7 +169,7 @@ NBox {
           anchors.margins: 2
           width: formatLabel.width + Style.marginXS
           height: formatLabel.height + Style.marginXXS
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           radius: Style.radiusXXS
           NText {
             id: formatLabel
@@ -195,7 +194,7 @@ NBox {
           anchors.margins: 2
           width: height
           height: Style.fontSizeM + Style.marginXS
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           radius: Style.radiusXXS
           NIcon {
             anchors.centerIn: parent

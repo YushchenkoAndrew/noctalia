@@ -67,7 +67,7 @@ ColumnLayout {
       id: frame
 
       radius: root.radius
-      color: Color.mSurface
+      color: Color.smartAlpha(Color.mSurface)
       border.color: input.activeFocus ? Color.mSecondary : Color.mOutline
       border.width: Style.borderS
 

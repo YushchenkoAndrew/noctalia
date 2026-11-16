@@ -48,7 +48,6 @@
       "customIconPath": "",
       "colorizeDistroLogo": false,
       "colorizeSystemIcon": "none",
-      "colorizeSystemText": "none",
       "enableColorization": false
     },
     "CustomButton": {
@@ -112,7 +111,6 @@
       "icon": "rocket",
       "customIconPath": "",
       "colorizeSystemIcon": "none",
-      "colorizeSystemText": "none",
       "enableColorization": false,
       "iconColor": "none"
     },
@@ -146,6 +144,9 @@
     },
     "SessionMenu": {
       "iconColor": "error"
+    },
+    "Settings": {
+      "iconColor": "none"
     },
     "Spacer": {
       "width": 20

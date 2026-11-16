@@ -8,7 +8,6 @@
   # Turn on with `.override { ddcSupport = true; }` (and the matching settings.json key).
   ddcSupport ? false, # external-monitor brightness   <-> brightness.enableDdcSupport
   multimediaSupport ? false, # QtMultimedia, only needed by plugins that import it
-  calendarSupport ? false, # evolution-data-server calendar events
 
   # What the shell needs for the features that are on in a lean setup.
   runtimeDeps ? [
@@ -17,7 +16,7 @@
     wlsunset
     wl-clipboard
     imagemagick # notification icon processing
-    (python3.withPackages (pp: lib.optional calendarSupport pp.pygobject3))
+    python3 # template/theme scripts
   ]
   ++ lib.optional ddcSupport ddcutil,
 
@@ -35,13 +34,6 @@
   imagemagick,
   python3,
   wayland-scanner,
-  # calendar support deps
-  evolution-data-server,
-  libical,
-  glib,
-  libsoup_3,
-  json-glib,
-  gobject-introspection,
 }:
 let
   src = lib.cleanSourceWith {
@@ -63,15 +55,6 @@ let
         /CREDITS.md
       ]);
   };
-
-  giTypelibPath = lib.makeSearchPath "lib/girepository-1.0" [
-    evolution-data-server
-    libical
-    glib.out
-    libsoup_3
-    json-glib
-    gobject-introspection
-  ];
 in
 stdenvNoCC.mkDerivation {
   pname = "noctalia-shell";
@@ -97,7 +80,6 @@ stdenvNoCC.mkDerivation {
       --prefix PATH : ${lib.makeBinPath (runtimeDeps ++ extraPackages)}
       --prefix XDG_DATA_DIRS : ${wayland-scanner}/share
       --set-default QS_CONFIG_PATH "$out/share/noctalia-shell"
-      ${lib.optionalString calendarSupport "--prefix GI_TYPELIB_PATH : ${giTypelibPath}"}
     )
   '';
 

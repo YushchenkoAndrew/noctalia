@@ -354,14 +354,16 @@ Singleton {
     return Settings.data.colorSchemes.darkMode ? baseOpacity : Math.pow(baseOpacity, 1.5);
   }
 
-  function smartAlpha(baseColor, minAlpha = 0.4) {
+  // Background for cards/rows drawn on top of a panel. When ui.translucentWidgets is on, their opacity is
+  // ui.widgetBackgroundOpacity (independent of the panel's own opacity), so cards can be glassier than the panel.
+  function smartAlpha(baseColor, minAlpha = 0.0) {
     if (PowerProfileService.noctaliaPerformanceMode)
       return baseColor;
 
     if (!Settings.data.ui.translucentWidgets)
       return baseColor;
 
-    let alpha = Math.max(adaptiveOpacity(Settings.data.ui.panelBackgroundOpacity), minAlpha);
+    let alpha = Math.max(Settings.data.ui.widgetBackgroundOpacity, minAlpha);
 
     // Combine with the base color's existing alpha
     let resultAlpha = Math.max(0, baseColor.a - (1.0 - alpha));

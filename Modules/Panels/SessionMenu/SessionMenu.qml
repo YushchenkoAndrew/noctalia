@@ -588,7 +588,7 @@ SmartPanel {
       width: timerText.width + Style.margin2XL
       height: timerText.height + Style.margin2L
       radius: Style.radiusM
-      color: Color.mSurfaceVariant
+      color: Color.smartAlpha(Color.mSurfaceVariant)
       border.color: Color.mOutline
       border.width: Style.borderS
       z: 1000
@@ -649,8 +649,7 @@ SmartPanel {
       visible: !largeButtonsStyle
       anchors.fill: parent
       anchors.margins: Style.marginL
-      color: Color.mSurfaceVariant
-
+      color: Color.smartAlpha(Color.mSurfaceVariant)
       ColumnLayout {
         anchors.fill: parent
         anchors.margins: Style.marginL

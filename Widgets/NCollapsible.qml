@@ -153,7 +153,7 @@ ColumnLayout {
     Layout.topMargin: Style.marginS
 
     visible: root.expanded
-    color: Color.mSurface
+    color: Color.smartAlpha(Color.mSurface)
     radius: Style.iRadiusL
     border.color: Color.mOutline
     border.width: Style.borderS

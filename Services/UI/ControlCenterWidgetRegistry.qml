@@ -20,7 +20,9 @@ Singleton {
                            "PowerProfile": powerProfileComponent,
                            "WiFi": networkComponent,
                            "Network": networkComponent,
-                           "NoctaliaPerformance": noctaliaPerformanceComponent
+                           "NoctaliaPerformance": noctaliaPerformanceComponent,
+                           "ScreenRecorder": screenRecorderComponent,
+                           "UsbDrives": usbDrivesComponent
                          })
 
   property var widgetMetadata: ({
@@ -50,6 +52,12 @@ Singleton {
   }
   property Component darkModeComponent: Component {
     DarkMode {}
+  }
+  property Component screenRecorderComponent: Component {
+    ScreenRecorder {}
+  }
+  property Component usbDrivesComponent: Component {
+    UsbDrives {}
   }
   property Component keepAwakeComponent: Component {
     KeepAwake {}

@@ -356,6 +356,8 @@ Singleton {
       property bool boxBorderEnabled: false
       property real panelBackgroundOpacity: 0.93
       property bool translucentWidgets: false
+      // Opacity of cards/rows inside panels when translucentWidgets is on (0 = invisible, 1 = solid)
+      property real widgetBackgroundOpacity: 0.4
       property bool panelsAttachedToBar: true
     }
 
@@ -369,6 +371,10 @@ Singleton {
       property bool use12hourFormat: false
       property bool showWeekNumberInCalendar: false
       property bool showCalendarEvents: true
+      // iCalendar sources: https URLs, .ics files or folders of .ics files, optionally "Name|source"
+      // (see Services/Location/Calendar/IcsCalendar.qml).
+      // Must stay a list<string>: JsonAdapter cannot load a `var` property nested in a section.
+      property list<string> calendarSources: []
       property bool showCalendarWeather: true
       property bool analogClockInCalendar: false
       property int firstDayOfWeek: -1 // -1 = auto (use locale), 0 = Sunday, 1 = Monday, 6 = Saturday
@@ -717,9 +723,60 @@ Singleton {
     }
 
     // plugins
+    // Built-in: catwalk, clipboard history, screen recorder and USB drives (sections below).
+    // This switch only controls the external plugin system (registry fetch, plugin loading).
     property JsonObject plugins: JsonObject {
+      property bool enabled: false
       property bool autoUpdate: false
       property bool notifyUpdates: true
+    }
+
+    // Built-in catwalk (animated cat that follows CPU usage)
+    property JsonObject catwalk: JsonObject {
+      property real minimumThreshold: 10
+      property bool hideBackground: false
+    }
+
+    // Built-in clipboard history panel (cliphist)
+    property JsonObject clipboard: JsonObject {
+      property int maxHistorySize: 100
+      property bool showImagePreviews: true
+      property string density: "comfortable"
+    }
+
+    // Built-in screen recorder (gpu-screen-recorder)
+    property JsonObject screenRecorder: JsonObject {
+      property bool hideInactive: false
+      property string iconColor: "none"
+      property string directory: ""
+      property string filenamePattern: "recording_yyyyMMdd_HHmmss"
+      property string frameRate: "60"
+      property string customFrameRate: "60"
+      property string audioCodec: "opus"
+      property string videoCodec: "h264"
+      property string quality: "very_high"
+      property string colorRange: "limited"
+      property bool showCursor: true
+      property bool copyToClipboard: false
+      property string audioSource: "default_output"
+      property string videoSource: "portal"
+      property string resolution: "original"
+      property bool replayEnabled: false
+      property string replayDuration: "30"
+      property string customReplayDuration: "30"
+      property string replayStorage: "ram"
+      property bool restorePortalSession: false
+    }
+
+    // Built-in USB drive manager (udisks)
+    property JsonObject usbDrives: JsonObject {
+      property bool autoMount: false
+      property string fileBrowser: "yazi"
+      property string terminalCommand: "kitty"
+      property bool showNotifications: true
+      property bool hideWhenEmpty: false
+      property bool showBadge: false
+      property string iconColor: "none"
     }
 
     // idle management
@@ -1111,9 +1168,9 @@ Singleton {
   // If the settings structure has changed, ensure
   // backward compatibility by upgrading the settings
   function upgradeSettings() {
-    // Wait for PluginService to finish loading plugins first
+    // Wait for PluginService to finish loading plugins first (only when the plugin system is enabled)
     // This prevents deleting plugin widgets during reload before plugins are registered
-    if (!PluginService.initialized || !PluginService.pluginsFullyLoaded) {
+    if (adapter.plugins.enabled && (!PluginService.initialized || !PluginService.pluginsFullyLoaded)) {
       Logger.d("Settings", "Plugins not fully loaded yet, deferring upgrade");
       Qt.callLater(upgradeSettings);
       return;

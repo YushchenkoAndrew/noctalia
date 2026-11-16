@@ -132,8 +132,7 @@ Item {
       visible: !root.showOnlyLists
       Layout.fillWidth: true
       Layout.preferredHeight: masterControlCol.implicitHeight + Style.margin2L
-      color: Color.mSurface
-
+      color: Color.smartAlpha(Color.mSurface)
       ColumnLayout {
         id: masterControlCol
         anchors.fill: parent
@@ -327,8 +326,7 @@ Item {
       visible: !root.showOnlyLists && NetworkService.wifiAvailable && BluetoothService.bluetoothAvailable
       Layout.fillWidth: true
       Layout.preferredHeight: miscSettingsCol.implicitHeight + Style.margin2XL
-      color: Color.mSurface
-
+      color: Color.smartAlpha(Color.mSurface)
       ColumnLayout {
         id: miscSettingsCol
         anchors.fill: parent
@@ -864,7 +862,7 @@ Item {
           Layout.fillWidth: true
           implicitHeight: infoColumn.implicitHeight + Style.margin2S
           radius: Style.radiusXS
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           border.width: Style.borderS
           border.color: Style.boxBorderColor
           clip: true
@@ -1133,7 +1131,7 @@ Item {
           visible: root.passwordSsid === modelData.ssid && !networkItem.isBusy
           Layout.fillWidth: true
           height: passwordLayout.implicitHeight + Style.margin2S
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           border.color: Color.mOutline
           border.width: Style.borderS
           radius: Style.iRadiusXS
@@ -1205,7 +1203,7 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Style.baseWidgetSize * 0.9
                     radius: Style.iRadiusXS
-                    color: Color.mSurface
+                    color: Color.smartAlpha(Color.mSurface)
                     border.color: caCertInput.activeFocus ? Color.mSecondary : Color.mOutline
                     border.width: Style.borderS
 
@@ -1246,7 +1244,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.baseWidgetSize * 0.9
                 radius: Style.iRadiusXS
-                color: Color.mSurface
+                color: Color.smartAlpha(Color.mSurface)
                 border.color: anonIdentityInput.activeFocus ? Color.mSecondary : Color.mOutline
                 border.width: Style.borderS
 
@@ -1280,7 +1278,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.baseWidgetSize * 0.9
                 radius: Style.iRadiusXS
-                color: Color.mSurface
+                color: Color.smartAlpha(Color.mSurface)
                 border.color: identityInput.activeFocus ? Color.mSecondary : Color.mOutline
                 border.width: Style.borderS
 
@@ -1316,7 +1314,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.baseWidgetSize * 0.9
                 radius: Style.iRadiusXS
-                color: Color.mSurface
+                color: Color.smartAlpha(Color.mSurface)
                 border.color: pwdInput.activeFocus ? Color.mSecondary : Color.mOutline
                 border.width: Style.borderS
 
@@ -1386,7 +1384,7 @@ Item {
           visible: root.expandedSsid === modelData.ssid && !networkItem.isBusy
           Layout.fillWidth: true
           height: forgetRow.implicitHeight + Style.margin2S
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           radius: Style.radiusS
           border.width: Style.borderS
           border.color: Color.mOutline

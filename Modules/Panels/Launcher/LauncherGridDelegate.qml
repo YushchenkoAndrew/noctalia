@@ -57,7 +57,7 @@ Item {
         Rectangle {
           anchors.fill: parent
           radius: Style.radiusM
-          color: Color.mSurface
+          color: Color.smartAlpha(Color.mSurface)
           visible: Settings.data.appLauncher.showIconBackground && !modelData.isImage
         }
 
@@ -84,8 +84,7 @@ Item {
           Rectangle {
             anchors.fill: parent
             visible: parent.status === Image.Loading
-            color: Color.mSurfaceVariant
-
+            color: Color.smartAlpha(Color.mSurfaceVariant)
             BusyIndicator {
               anchors.centerIn: parent
               running: true
@@ -171,7 +170,7 @@ Item {
           anchors.margins: 2
           width: height
           height: Style.fontSizeM + Style.marginXS
-          color: Color.mSurfaceVariant
+          color: Color.smartAlpha(Color.mSurfaceVariant)
           radius: Style.radiusXXS
           NIcon {
             anchors.centerIn: parent
