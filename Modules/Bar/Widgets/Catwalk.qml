@@ -33,7 +33,7 @@ Item {
     }
 
     property string tooltipDirection: BarService.getTooltipDirection()
-    property bool enabled: true
+    property bool catEnabled: true
     property bool allowClickWhenDisabled: false
     property bool hovering: false
 
@@ -109,7 +109,7 @@ Item {
         y: Style.pixelAlignCenter(parent.height, height)
         width: root.contentWidth
         height: root.contentHeight
-        opacity: root.enabled ? Style.opacityFull : Style.opacityMedium
+        opacity: root.catEnabled ? Style.opacityFull : Style.opacityMedium
         color: mouseArea.containsMouse ? Color.mHover : Style.capsuleColor
         radius: Math.min((customRadius >= 0 ? customRadius : Style.iRadiusL), width / 2)
         border.color: Style.capsuleBorderColor
@@ -149,7 +149,7 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        cursorShape: root.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: root.catEnabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         hoverEnabled: true
         onEntered: {
@@ -173,7 +173,7 @@ Item {
 
             Logger.i("Catwalk", "Clicked! API:", !!pluginApi, "Screen:", root.screen ? root.screen.name : "null");
 
-            if (!root.enabled && !root.allowClickWhenDisabled) {
+            if (!root.catEnabled && !root.allowClickWhenDisabled) {
                 return;
             }
             // Open Panel on left/right click

@@ -257,7 +257,7 @@ Item {
         radius: Style.radiusM
         color: card.pressed
             ? Qt.alpha(Color.mPrimary, 0.12)
-            : (card.selected ? Color.mSecondaryContainer : Color.mSurfaceVariant)
+            : (card.selected ? Qt.alpha(Color.mPrimary, 0.2) : Color.mSurfaceVariant)
         border.color: (cardHover.hovered || card.pressed || card.selected)
             ? Color.mPrimary
             : Qt.alpha(Color.mOutline, Style.opacityHeavy)

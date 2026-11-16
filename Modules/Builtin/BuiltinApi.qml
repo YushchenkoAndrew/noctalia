@@ -27,7 +27,6 @@ QtObject {
 
   property var mainInstance: null
   property var panelOpenScreen: null
-  readonly property bool isPanelOpen: panelOpenScreen !== null
 
   // Settings are edited in settings.json, nothing to persist at runtime
   function saveSettings() {
@@ -74,6 +73,12 @@ QtObject {
       return;
     }
     screenDetector.withCurrentScreen(callback);
+  }
+
+  // True when this feature's panel is currently open on the given screen
+  function isPanelOpen(screen) {
+    var panel = screen ? PanelService.getPanel(panelName, screen) : null;
+    return panel ? panel.isPanelOpen === true : false;
   }
 
   function togglePanel(screen, buttonItem) {
