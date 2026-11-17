@@ -388,6 +388,11 @@ Singleton {
         }
       }
     }
+
+    // Restart wlsunset so the color is applied again (e.g. after the monitors woke up)
+    function reapply() {
+      NightLightService.reapply("ipc");
+    }
   }
 
   IpcHandler {

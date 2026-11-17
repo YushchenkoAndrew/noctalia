@@ -63,6 +63,84 @@ Singleton {
     }
   }
 
+  // True while a deliberate restart of wlsunset is in flight (its exit must not count as a crash)
+  property bool _restartRequested: false
+
+  // Restart wlsunset so it sets the gamma ramp again.
+  // wlsunset only applies colors when its state changes. If the compositor resets gamma
+  // (monitor wake / hotplug / unlock) it keeps "running" while the screen is back to normal.
+  function reapply(reason) {
+    if (!params.enabled)
+      return;
+    if (!params.forced && params.autoSchedule && !LocationService.coordinatesReady)
+      return;
+    Logger.i("NightLight", "Re-applying night light (" + reason + ")");
+    if (runner.running) {
+      _restartRequested = true;
+      runner.running = false; // runner.onExited starts it again
+    } else {
+      lastCommand = [];
+      apply(true);
+    }
+  }
+
+  // Monitors added/removed/reconfigured: wlsunset does not always pick that up reliably
+  Timer {
+    id: screensDebounce
+    interval: 1500
+    repeat: false
+    onTriggered: root.reapply("monitors changed")
+  }
+
+  Connections {
+    target: Quickshell
+    function onScreensChanged() {
+      screensDebounce.restart();
+    }
+  }
+
+  // Unlocking the session resets gamma on some setups
+  Connections {
+    target: PanelService
+    function onLockScreenChanged() {
+      if (PanelService.lockScreen)
+        lockWatch.target = PanelService.lockScreen;
+    }
+  }
+
+  Connections {
+    id: lockWatch
+    target: PanelService.lockScreen
+    function onActiveChanged() {
+      if (!PanelService.lockScreen.active)
+        unlockDelay.restart();
+    }
+  }
+
+  Timer {
+    id: unlockDelay
+    interval: 1000
+    repeat: false
+    onTriggered: root.reapply("session unlocked")
+  }
+
+  // Safety net: if wlsunset should be running but is not (e.g. it failed to start), start it again.
+  // This only checks the process, it never restarts a running one, so it cannot cause flicker.
+  Timer {
+    id: watchdog
+    interval: 5 * 60 * 1000
+    repeat: true
+    running: root.params.enabled
+    onTriggered: {
+      if (runner.running)
+        return;
+      if (root.isManualMode() && !root._manualNightPhase)
+        return; // manual day phase: stopped on purpose
+      Logger.w("NightLight", "Watchdog: wlsunset is not running although night light is enabled, starting it");
+      root.apply(true);
+    }
+  }
+
   function timeToMinutes(timeStr) {
     var parts = timeStr.split(":").map(Number);
     return parts[0] * 60 + parts[1];
@@ -233,7 +311,7 @@ Singleton {
     repeat: false
     onTriggered: {
       Logger.i("NightLight", "Resume retry - re-applying night light again");
-      root.apply(true);
+      root.reapply("resume retry");
     }
   }
 
@@ -241,7 +319,7 @@ Singleton {
     target: Time
     function onResumed() {
       Logger.i("NightLight", "System resumed - re-applying night light");
-      root.apply(true);
+      root.reapply("resume");
       resumeRetryTimer.restart();
     }
   }
@@ -250,6 +328,12 @@ Singleton {
   Process {
     id: runner
     running: false
+    stderr: StdioCollector {
+      onStreamFinished: {
+        if (text.trim() !== "")
+          Logger.w("NightLight", "wlsunset:", text.trim());
+      }
+    }
     onStarted: {
       Logger.i("NightLight", "Wlsunset started:", runner.command);
       // Reset crash count on successful start
@@ -258,6 +342,14 @@ Singleton {
       }
     }
     onExited: function (code, status) {
+      if (root._restartRequested) {
+        root._restartRequested = false;
+        Qt.callLater(function () {
+          root.lastCommand = [];
+          root.apply(true);
+        });
+        return;
+      }
       if (root.params.enabled && root.isManualMode()) {
         // Manual mode: only treat as crash if we're in the night phase
         if (root._manualNightPhase) {
