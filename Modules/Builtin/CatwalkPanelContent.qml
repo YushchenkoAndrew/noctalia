@@ -25,9 +25,9 @@ Item {
         Rectangle {
             anchors.fill: parent
             anchors.margins: Style.marginL
-            color: Color.smartAlpha(Color.mSurface)
+            color: NColor.smartAlpha(NColor.mSurface)
             radius: Style.radiusL
-            border.color: Color.mOutline
+            border.color: NColor.mOutline
             border.width: Style.borderS
 
             ColumnLayout {

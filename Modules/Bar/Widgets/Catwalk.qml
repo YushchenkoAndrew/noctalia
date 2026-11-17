@@ -37,12 +37,12 @@ Item {
     property bool allowClickWhenDisabled: false
     property bool hovering: false
 
-    property color colorBg: Color.mSurfaceVariant
-    property color colorFg: Color.mPrimary
-    property color colorBgHover: Color.mHover
-    property color colorFgHover: Color.mOnHover
-    property color colorBorder: Color.mOutline
-    property color colorBorderHover: Color.mOutline
+    property color colorBg: NColor.mSurfaceVariant
+    property color colorFg: NColor.mPrimary
+    property color colorBgHover: NColor.mHover
+    property color colorFgHover: NColor.mOnHover
+    property color colorBorder: NColor.mOutline
+    property color colorBorderHover: NColor.mOutline
     property real customRadius: Style.radiusL
 
     signal entered
@@ -110,7 +110,7 @@ Item {
         width: root.contentWidth
         height: root.contentHeight
         opacity: root.catEnabled ? Style.opacityFull : Style.opacityMedium
-        color: mouseArea.containsMouse ? Color.mHover : Style.capsuleColor
+        color: mouseArea.containsMouse ? NColor.mHover : Style.capsuleColor
         radius: Math.min((customRadius >= 0 ? customRadius : Style.iRadiusL), width / 2)
         border.color: Style.capsuleBorderColor
         border.width: Style.capsuleBorderWidth

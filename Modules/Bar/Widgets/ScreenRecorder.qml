@@ -34,7 +34,7 @@ NIconButton {
     property var cfg: pluginApi?.pluginSettings || ({})
     property var defaults: pluginApi?.manifest?.metadata?.defaultSettings || ({})
     readonly property string iconColorKey: cfg.iconColor ?? defaults.iconColor ?? "none"
-    readonly property color iconColor: Color.resolveColorKey(iconColorKey)
+    readonly property color iconColor: NColor.resolveColorKey(iconColorKey)
 
     readonly property bool shouldShow: !hideInactive || (mainInstance?.isRecording ?? false) || (mainInstance?.isPending ?? false) || (mainInstance?.isReplaying ?? false)
 
@@ -62,8 +62,8 @@ NIconButton {
     baseSize: root.capsuleHeight
     applyUiScale: false
     customRadius: Style.radiusL
-    colorBg: (mainInstance?.isRecording || mainInstance?.isPending) ? Color.mPrimary : (mainInstance?.isReplaying ? Qt.alpha(Color.mSecondary, 0.25) : Style.capsuleColor)
-    colorFg: (mainInstance?.isRecording || mainInstance?.isPending) ? Color.mOnPrimary : (mainInstance?.isReplaying ? Color.mSecondary : root.iconColor)
+    colorBg: (mainInstance?.isRecording || mainInstance?.isPending) ? NColor.mPrimary : (mainInstance?.isReplaying ? Qt.alpha(NColor.mSecondary, 0.25) : Style.capsuleColor)
+    colorFg: (mainInstance?.isRecording || mainInstance?.isPending) ? NColor.mOnPrimary : (mainInstance?.isReplaying ? NColor.mSecondary : root.iconColor)
     colorBorder: "transparent"
     colorBorderHover: "transparent"
     border.color: Style.capsuleBorderColor

@@ -23,7 +23,7 @@ Item {
   // Reference to MainScreen (for panel access)
   required property var windowRoot
 
-  readonly property color panelBackgroundColor: Color.mSurface
+  readonly property color panelBackgroundColor: NColor.mSurface
 
   readonly property bool barBackgroundEnabled: Settings.data.bar.showBackground
   readonly property bool separateLayout: Settings.data.bar.useSeparateOpacity || !barBackgroundEnabled

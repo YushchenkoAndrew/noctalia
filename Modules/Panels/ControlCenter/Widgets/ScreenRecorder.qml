@@ -13,8 +13,8 @@ NIconButton {
     enabled: mainInstance?.isAvailable ?? false
     icon: "camera-video"
     tooltipText: mainInstance?.buildTooltip()
-    colorFg: mainInstance?.isRecording ? Color.mOnPrimary : (mainInstance?.isReplaying ? Color.mSecondary : Color.mPrimary)
-    colorBg: mainInstance?.isRecording ? Color.mPrimary : (mainInstance?.isReplaying ? Qt.alpha(Color.mSecondary, 0.25) : Style.capsuleColor)
+    colorFg: mainInstance?.isRecording ? NColor.mOnPrimary : (mainInstance?.isReplaying ? NColor.mSecondary : NColor.mPrimary)
+    colorBg: mainInstance?.isRecording ? NColor.mPrimary : (mainInstance?.isReplaying ? Qt.alpha(NColor.mSecondary, 0.25) : Style.capsuleColor)
     onClicked: {
         if (pluginApi && pluginApi.mainInstance) {
             pluginApi.mainInstance.toggleRecording();

@@ -145,7 +145,7 @@ Item {
       visible: !root.showOnlyLists
       Layout.fillWidth: true
       Layout.preferredHeight: masterControlCol.implicitHeight + Style.margin2L
-      color: Color.smartAlpha(Color.mSurface)
+      color: NColor.smartAlpha(NColor.mSurface)
       ColumnLayout {
         id: masterControlCol
         anchors.fill: parent
@@ -177,7 +177,7 @@ Item {
           text: I18n.tr("panels.connections.bluetooth-discoverable", {
                           hostName: HostService.hostName
                         })
-          color: Color.mOnSurfaceVariant
+          color: NColor.mOnSurfaceVariant
           richTextEnabled: true
           wrapMode: Text.WordWrap
           horizontalAlignment: Text.AlignHCenter
@@ -197,7 +197,7 @@ Item {
       Layout.fillWidth: true
       Layout.preferredHeight: connectedDevicesCol.implicitHeight + Style.margin2M
       border.color: showOnlyLists ? Style.boxBorderColor : "transparent"
-      color: showOnlyLists ? Color.mSurfaceVariant : "transparent"
+      color: showOnlyLists ? NColor.mSurfaceVariant : "transparent"
 
       ColumnLayout {
         id: connectedDevicesCol
@@ -228,7 +228,7 @@ Item {
       Layout.fillWidth: true
       Layout.preferredHeight: pairedDevicesCol.implicitHeight + Style.margin2M
       border.color: showOnlyLists ? Style.boxBorderColor : "transparent"
-      color: showOnlyLists ? Color.mSurfaceVariant : "transparent"
+      color: showOnlyLists ? NColor.mSurfaceVariant : "transparent"
 
       ColumnLayout {
         id: pairedDevicesCol
@@ -259,7 +259,7 @@ Item {
       Layout.fillWidth: true
       Layout.preferredHeight: availableDevicesCol.implicitHeight + Style.margin2M
       border.color: "transparent"
-      color: showOnlyLists ? Color.mSurfaceVariant : "transparent"
+      color: showOnlyLists ? NColor.mSurfaceVariant : "transparent"
 
       ColumnLayout {
         id: availableDevicesCol
@@ -289,7 +289,7 @@ Item {
           visible: root.availableDevices.length === 0 && root.unnamedAvailableDevices.length > 0
           text: I18n.tr("panels.connections.bluetooth-devices-unnamed")
           pointSize: Style.fontSizeS
-          color: Color.mOnSurfaceVariant
+          color: NColor.mOnSurfaceVariant
           horizontalAlignment: Text.AlignHCenter
           Layout.fillWidth: true
           Layout.margins: Style.marginL
@@ -307,7 +307,7 @@ Item {
       visible: !root.showOnlyLists && BluetoothService.enabled
       Layout.fillWidth: true
       Layout.preferredHeight: miscSettingsCol.implicitHeight + Style.margin2XL
-      color: Color.smartAlpha(Color.mSurface)
+      color: NColor.smartAlpha(NColor.mSurface)
       ColumnLayout {
         id: miscSettingsCol
         anchors.fill: parent
@@ -374,15 +374,15 @@ Item {
       readonly property bool isBusy: BluetoothService.isDeviceBusy(modelData)
       readonly property bool isExpanded: root.expandedDeviceKey === BluetoothService.deviceKey(modelData)
 
-      function getContentColors(defaultColors = [Color.mSurface, Color.mOnSurface]) {
+      function getContentColors(defaultColors = [NColor.mSurface, NColor.mOnSurface]) {
         if (modelData.pairing || modelData.state === BluetoothDeviceState.Connecting) {
-          return [Color.mPrimary, Color.mOnPrimary];
+          return [NColor.mPrimary, NColor.mOnPrimary];
         }
         if (modelData.connected && modelData.state !== BluetoothDeviceState.Disconnecting) {
-          return [Color.mPrimary, Color.mOnPrimary];
+          return [NColor.mPrimary, NColor.mOnPrimary];
         }
         if (modelData.blocked || modelData.state === BluetoothDeviceState.Disconnecting) {
-          return [Color.mError, Color.mOnError];
+          return [NColor.mError, NColor.mOnError];
         }
         return defaultColors;
       }
@@ -442,7 +442,7 @@ Item {
               }
               visible: text !== ""
               pointSize: Style.fontSizeXS
-              color: Qt.alpha(device.getContentColors([Color.mSurfaceVariant, Color.mOnSurfaceVariant])[1], Style.opacityHeavy)
+              color: Qt.alpha(device.getContentColors([NColor.mSurfaceVariant, NColor.mOnSurfaceVariant])[1], Style.opacityHeavy)
             }
 
             RowLayout {
@@ -462,7 +462,7 @@ Item {
                   return b === null ? "-" : (b + "%");
                 }
                 pointSize: Style.fontSizeXS
-                color: Qt.alpha(device.getContentColors([Color.mSurfaceVariant, Color.mOnSurfaceVariant])[1], Style.opacityHeavy)
+                color: Qt.alpha(device.getContentColors([NColor.mSurfaceVariant, NColor.mOnSurfaceVariant])[1], Style.opacityHeavy)
               }
             }
           }
@@ -486,8 +486,8 @@ Item {
               icon: "info"
               tooltipText: I18n.tr("common.info")
               baseSize: Style.baseWidgetSize * 0.75
-              colorBg: Color.mSurfaceVariant
-              colorFg: Color.mOnSurface
+              colorBg: NColor.mSurfaceVariant
+              colorFg: NColor.mOnSurface
               colorBorder: "transparent"
               colorBorderHover: "transparent"
               onClicked: {
@@ -501,8 +501,8 @@ Item {
               icon: "trash"
               tooltipText: I18n.tr("common.unpair")
               baseSize: Style.baseWidgetSize * 0.75
-              colorBg: Color.mPrimary
-              colorFg: Color.mOnPrimary
+              colorBg: NColor.mPrimary
+              colorFg: NColor.mOnPrimary
               colorBorder: "transparent"
               colorBorderHover: "transparent"
               onClicked: BluetoothService.unpairDevice(modelData)
@@ -513,8 +513,8 @@ Item {
               visible: modelData.state !== BluetoothDeviceState.Connecting && modelData.state !== BluetoothDeviceState.Disconnecting
               enabled: (canConnect || canDisconnect || (root.showOnlyLists ? false : canPair)) && !isBusy
               fontSize: Style.fontSizeS
-              backgroundColor: modelData.connected ? Color.mSurfaceVariant : Color.mPrimary
-              textColor: modelData.connected ? Color.mOnSurface : Color.mOnPrimary
+              backgroundColor: modelData.connected ? NColor.mSurfaceVariant : NColor.mPrimary
+              textColor: modelData.connected ? NColor.mOnSurface : NColor.mOnPrimary
               text: {
                 if (modelData.pairing)
                   return I18n.tr("common.pairing");
@@ -547,7 +547,7 @@ Item {
           Layout.fillWidth: true
           implicitHeight: infoColumn.implicitHeight + Style.margin2S
           radius: Style.radiusXS
-          color: Color.smartAlpha(Color.mSurfaceVariant)
+          color: NColor.smartAlpha(NColor.mSurfaceVariant)
           border.width: Style.borderS
           border.color: Style.boxBorderColor
           clip: true
@@ -584,12 +584,12 @@ Item {
               NIcon {
                 icon: BluetoothService.getSignalIcon(modelData)
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
               }
               NText {
                 text: BluetoothService.getSignalStrength(modelData)
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
                 Layout.fillWidth: true
               }
             }
@@ -605,7 +605,7 @@ Item {
                   return BatteryService.getIcon(b !== null ? b : 0, false, false, b !== null);
                 }
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
               }
               NText {
                 text: {
@@ -613,7 +613,7 @@ Item {
                   return b === null ? "-" : (b + "%");
                 }
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
                 Layout.fillWidth: true
               }
             }
@@ -625,12 +625,12 @@ Item {
               NIcon {
                 icon: "link"
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
               }
               NText {
                 text: modelData.paired ? I18n.tr("common.yes") : I18n.tr("common.no")
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
                 Layout.fillWidth: true
               }
             }
@@ -642,12 +642,12 @@ Item {
               NIcon {
                 icon: "shield-check"
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
               }
               NText {
                 text: modelData.trusted ? I18n.tr("common.yes") : I18n.tr("common.no")
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
                 Layout.fillWidth: true
               }
             }
@@ -659,12 +659,12 @@ Item {
               NIcon {
                 icon: "hash"
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
               }
               NText {
                 text: modelData.address || "-"
                 pointSize: Style.fontSizeXS
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
                 Layout.fillWidth: true
               }
             }
@@ -700,7 +700,7 @@ Item {
     anchors.centerIn: parent
     width: Math.min(parent.width * 0.9, 400)
     height: pinCol.implicitHeight + Style.margin2L
-    color: Color.smartAlpha(Color.mSurface)
+    color: NColor.smartAlpha(NColor.mSurface)
     radius: Style.radiusM
     border.color: Style.boxBorderColor
     border.width: Style.borderS
@@ -722,21 +722,21 @@ Item {
       NIcon {
         icon: "lock"
         pointSize: 48
-        color: Color.mPrimary
+        color: NColor.mPrimary
         Layout.alignment: Qt.AlignHCenter
       }
       NText {
         text: I18n.tr("panels.connections.authentication-required")
         pointSize: Style.fontSizeXL
         font.weight: Style.fontWeightBold
-        color: Color.mOnSurface
+        color: NColor.mOnSurface
         horizontalAlignment: Text.AlignHCenter
         Layout.fillWidth: true
       }
       NText {
         text: I18n.tr("panels.connections.pin-instructions")
         pointSize: Style.fontSizeM
-        color: Color.mOnSurfaceVariant
+        color: NColor.mOnSurfaceVariant
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
         Layout.fillWidth: true
@@ -770,8 +770,8 @@ Item {
         NButton {
           text: I18n.tr("common.confirm")
           icon: "check"
-          backgroundColor: Color.mPrimary
-          textColor: Color.mOnPrimary
+          backgroundColor: NColor.mPrimary
+          textColor: NColor.mOnPrimary
           enabled: pinInput.text.length > 0
           onClicked: {
             BluetoothService.submitPin(pinInput.text);

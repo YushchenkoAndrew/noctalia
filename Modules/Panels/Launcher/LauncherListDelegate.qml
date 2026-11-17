@@ -18,7 +18,7 @@ NBox {
   width: ListView.view.width
   implicitHeight: launcher.entryHeight
   clip: true
-  color: entry.isSelected ? Color.mHover : Color.mSurfaceVariant
+  color: entry.isSelected ? NColor.mHover : NColor.mSurfaceVariant
   forceOpaque: entry.isSelected
 
   // Prepare item when it becomes visible (e.g., decode images)
@@ -57,7 +57,7 @@ NBox {
         Rectangle {
           anchors.fill: parent
           radius: Style.radiusXS
-          color: Color.smartAlpha(Color.mSurface)
+          color: NColor.smartAlpha(NColor.mSurface)
           visible: Settings.data.appLauncher.showIconBackground && !modelData.isImage
         }
 
@@ -67,7 +67,7 @@ NBox {
           anchors.fill: parent
           visible: !!modelData.isImage && !modelData.displayString
           radius: Style.radiusXS
-          borderColor: Color.mOnSurface
+          borderColor: NColor.mOnSurface
           borderWidth: Style.borderM
           imageFillMode: Image.PreserveAspectCrop
 
@@ -87,7 +87,7 @@ NBox {
           Rectangle {
             anchors.fill: parent
             visible: parent.status === Image.Loading
-            color: Color.smartAlpha(Color.mSurfaceVariant)
+            color: NColor.smartAlpha(NColor.mSurfaceVariant)
             BusyIndicator {
               anchors.centerIn: parent
               running: true
@@ -110,7 +110,7 @@ NBox {
           radius: Style.radiusXS
           color: modelData.colorHex || "transparent"
           visible: !!modelData.colorHex
-          border.color: Color.mOnSurface
+          border.color: NColor.mOnSurface
           border.width: Style.borderM
         }
 
@@ -135,7 +135,7 @@ NBox {
               icon: modelData.icon
               pointSize: Style.fontSizeXXXL
               visible: modelData.icon && !modelData.displayString
-              color: (entry.isSelected && !Settings.data.appLauncher.showIconBackground) ? Color.mOnHover : Color.mOnSurface
+              color: (entry.isSelected && !Settings.data.appLauncher.showIconBackground) ? NColor.mOnHover : NColor.mOnSurface
             }
           }
 
@@ -158,7 +158,7 @@ NBox {
           text: modelData.displayString ? modelData.displayString : (modelData.name ? modelData.name.charAt(0).toUpperCase() : "?")
           pointSize: modelData.displayString ? (modelData.displayStringSize || Style.fontSizeXXXL) : Style.fontSizeXXL
           font.weight: Style.fontWeightBold
-          color: modelData.displayString ? Color.mOnSurface : Color.mOnPrimary
+          color: modelData.displayString ? NColor.mOnSurface : NColor.mOnPrimary
         }
 
         // Image type indicator overlay
@@ -169,7 +169,7 @@ NBox {
           anchors.margins: 2
           width: formatLabel.width + Style.marginXS
           height: formatLabel.height + Style.marginXXS
-          color: Color.smartAlpha(Color.mSurfaceVariant)
+          color: NColor.smartAlpha(NColor.mSurfaceVariant)
           radius: Style.radiusXXS
           NText {
             id: formatLabel
@@ -182,7 +182,7 @@ NBox {
               return parts[0] || "IMG";
             }
             pointSize: Style.fontSizeXXS
-            color: Color.mOnSurfaceVariant
+            color: NColor.mOnSurfaceVariant
           }
         }
 
@@ -194,13 +194,13 @@ NBox {
           anchors.margins: 2
           width: height
           height: Style.fontSizeM + Style.marginXS
-          color: Color.smartAlpha(Color.mSurfaceVariant)
+          color: NColor.smartAlpha(NColor.mSurfaceVariant)
           radius: Style.radiusXXS
           NIcon {
             anchors.centerIn: parent
             icon: modelData.badgeIcon || ""
             pointSize: Style.fontSizeS
-            color: Color.mOnSurfaceVariant
+            color: NColor.mOnSurfaceVariant
           }
         }
       }
@@ -214,7 +214,7 @@ NBox {
           text: modelData.name || "Unknown"
           pointSize: Style.fontSizeL
           font.weight: Style.fontWeightBold
-          color: entry.isSelected ? Color.mOnHover : Color.mOnSurface
+          color: entry.isSelected ? NColor.mOnHover : NColor.mOnSurface
           elide: Text.ElideRight
           maximumLineCount: 1
           wrapMode: Text.Wrap
@@ -225,7 +225,7 @@ NBox {
         NText {
           text: modelData.description || ""
           pointSize: Style.fontSizeS
-          color: entry.isSelected ? Color.mOnHover : Color.mOnSurfaceVariant
+          color: entry.isSelected ? NColor.mOnHover : NColor.mOnSurfaceVariant
           elide: Text.ElideRight
           maximumLineCount: 1
           Layout.fillWidth: true

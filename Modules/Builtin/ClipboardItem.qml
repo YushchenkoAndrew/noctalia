@@ -11,7 +11,7 @@ import qs.Widgets
 // focus border, no hover fill. See the reference delegate in
 // $XDG_CONFIG_HOME/quickshell/noctalia-shell/Modules/Panels/NotificationHistory/
 // NotificationHistoryPanel.qml (Rectangle with radius: Style.radiusM and
-// color: Color.mSurfaceVariant). This keeps clipper rows looking like
+// color: NColor.mSurfaceVariant). This keeps clipper rows looking like
 // native notification rows so the panel reads as part of the shell.
 //
 // Responsibilities:
@@ -247,8 +247,8 @@ Item {
     // Uses NBox (qs.Widgets) per the noctalia-plugins AGENTS.md rule that
     // rounded surfaces should use the shared widget rather than a raw
     // Rectangle. `forceOpaque: true` disables NBox's default
-    // `Color.smartAlpha(color)` adjustment so the pressed-state alpha we
-    // set here (Qt.alpha(Color.mPrimary, 0.12)) is honored literally —
+    // `NColor.smartAlpha(color)` adjustment so the pressed-state alpha we
+    // set here (Qt.alpha(NColor.mPrimary, 0.12)) is honored literally —
     // otherwise smartAlpha would compound the alpha and shift the idle /
     // selected fills as well.
     NBox {
@@ -256,11 +256,11 @@ Item {
         forceOpaque: true
         radius: Style.radiusM
         color: card.pressed
-            ? Qt.alpha(Color.mPrimary, 0.12)
-            : (card.selected ? Qt.alpha(Color.mPrimary, 0.2) : Color.mSurfaceVariant)
+            ? Qt.alpha(NColor.mPrimary, 0.12)
+            : (card.selected ? Qt.alpha(NColor.mPrimary, 0.2) : NColor.mSurfaceVariant)
         border.color: (cardHover.hovered || card.pressed || card.selected)
-            ? Color.mPrimary
-            : Qt.alpha(Color.mOutline, Style.opacityHeavy)
+            ? NColor.mPrimary
+            : Qt.alpha(NColor.mOutline, Style.opacityHeavy)
         border.width: Style.borderS
     }
 
@@ -325,7 +325,7 @@ Item {
             text: card.previewText
             pointSize: Style.fontSizeM
             font.weight: Font.Normal
-            color: Color.mOnSurface
+            color: NColor.mOnSurface
             elide: Text.ElideRight
             maximumLineCount: 1
             wrapMode: Text.NoWrap
@@ -344,14 +344,14 @@ Item {
             NIcon {
                 icon: "image"
                 pointSize: Style.fontSizeXXL
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
             }
 
             NText {
                 Layout.fillWidth: true
                 text: card.previewText
                 pointSize: Style.fontSizeM
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
                 elide: Text.ElideRight
                 maximumLineCount: 1
                 wrapMode: Text.NoWrap
@@ -380,7 +380,7 @@ Item {
             NIcon {
                 icon: "file"
                 pointSize: Style.fontSizeXXL
-                color: Color.mOnSurface
+                color: NColor.mOnSurface
             }
 
             ColumnLayout {
@@ -400,7 +400,7 @@ Item {
                     text: card.fileMeta.filename || card.previewText
                     pointSize: Style.fontSizeM
                     font.weight: Style.fontWeightBold
-                    color: Color.mOnSurface
+                    color: NColor.mOnSurface
                     elide: Text.ElideRight
                     maximumLineCount: 1
                     wrapMode: Text.NoWrap
@@ -418,7 +418,7 @@ Item {
                     visible: text.length > 0
                     text: card.fileMeta.parentDir
                     pointSize: Style.fontSizeS
-                    color: Color.mOnSurfaceVariant
+                    color: NColor.mOnSurfaceVariant
                     elide: Text.ElideMiddle
                     maximumLineCount: 1
                     wrapMode: Text.NoWrap
@@ -434,7 +434,7 @@ Item {
                 visible: text.length > 0
                 text: card.fileMeta.sizeHuman
                 pointSize: Style.fontSizeS
-                color: Color.mOnSurfaceVariant
+                color: NColor.mOnSurfaceVariant
                 horizontalAlignment: Text.AlignRight
             }
         }
@@ -471,7 +471,7 @@ Item {
                 visible: !cardHover.hovered && !card.pinned && card.relativeTimeText.length > 0
                 text: card.relativeTimeText
                 pointSize: Style.fontSizeS
-                color: Color.mOnSurfaceVariant
+                color: NColor.mOnSurfaceVariant
                 horizontalAlignment: Text.AlignRight
             }
 
@@ -565,7 +565,7 @@ Item {
             visible: card.pinned
             icon: "pin"
             pointSize: Style.fontSizeL
-            color: Color.mPrimary
+            color: NColor.mPrimary
         }
 
         NIconButton {

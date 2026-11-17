@@ -27,7 +27,7 @@ SmartPanel {
   panelAnchorLeft: pluginInstance?.panelAnchorLeft ?? false
   panelAnchorRight: pluginInstance?.panelAnchorRight ?? false
 
-  panelBackgroundColor: pluginInstance?.panelBackgroundColor ?? Color.mSurface
+  panelBackgroundColor: pluginInstance?.panelBackgroundColor ?? NColor.mSurface
 
   panelContent: Component {
     Item {
