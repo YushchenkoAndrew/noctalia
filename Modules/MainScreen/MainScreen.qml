@@ -209,10 +209,10 @@ PanelWindow {
       width: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? barPlaceholder.width : 0
       height: (!barPlaceholder.isFramed && root.barShouldShow && !barPlaceholder.isHidden && Settings.data.bar.showBackground) ? barPlaceholder.height : 0
       radius: Style.radiusL
-      topLeftCorner: barPlaceholder.topLeftCornerState
-      topRightCorner: barPlaceholder.topRightCornerState
-      bottomLeftCorner: barPlaceholder.bottomLeftCornerState
-      bottomRightCorner: barPlaceholder.bottomRightCornerState
+      topLeftRadius: (barPlaceholder.topLeftCornerState) === 0 ? Style.radiusL : 0
+      topRightRadius: (barPlaceholder.topRightCornerState) === 0 ? Style.radiusL : 0
+      bottomLeftRadius: (barPlaceholder.bottomLeftCornerState) === 0 ? Style.radiusL : 0
+      bottomRightRadius: (barPlaceholder.bottomRightCornerState) === 0 ? Style.radiusL : 0
     }
 
     // ── Framed bar: full screen minus rounded hole ──
@@ -240,10 +240,10 @@ PanelWindow {
       width: backgroundBlur.panelBg ? Math.round(backgroundBlur.panelBg.width) : 0
       height: backgroundBlur.panelBg ? Math.round(backgroundBlur.panelBg.height) : 0
       radius: Style.radiusL
-      topLeftCorner: backgroundBlur.panelBg ? backgroundBlur.panelBg.topLeftCornerState : CornerState.Normal
-      topRightCorner: backgroundBlur.panelBg ? backgroundBlur.panelBg.topRightCornerState : CornerState.Normal
-      bottomLeftCorner: backgroundBlur.panelBg ? backgroundBlur.panelBg.bottomLeftCornerState : CornerState.Normal
-      bottomRightCorner: backgroundBlur.panelBg ? backgroundBlur.panelBg.bottomRightCornerState : CornerState.Normal
+      topLeftRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.topLeftCornerState : 0) === 0 ? Style.radiusL : 0
+      topRightRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.topRightCornerState : 0) === 0 ? Style.radiusL : 0
+      bottomLeftRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.bottomLeftCornerState : 0) === 0 ? Style.radiusL : 0
+      bottomRightRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.bottomRightCornerState : 0) === 0 ? Style.radiusL : 0
     }
 
     // Closing panel (coexists with opening panel during transition)
@@ -253,10 +253,10 @@ PanelWindow {
       width: backgroundBlur.closingPanelBg ? Math.round(backgroundBlur.closingPanelBg.width) : 0
       height: backgroundBlur.closingPanelBg ? Math.round(backgroundBlur.closingPanelBg.height) : 0
       radius: Style.radiusL
-      topLeftCorner: backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.topLeftCornerState : CornerState.Normal
-      topRightCorner: backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.topRightCornerState : CornerState.Normal
-      bottomLeftCorner: backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.bottomLeftCornerState : CornerState.Normal
-      bottomRightCorner: backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.bottomRightCornerState : CornerState.Normal
+      topLeftRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.topLeftCornerState : 0) === 0 ? Style.radiusL : 0
+      topRightRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.topRightCornerState : 0) === 0 ? Style.radiusL : 0
+      bottomLeftRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.bottomLeftCornerState : 0) === 0 ? Style.radiusL : 0
+      bottomRightRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.bottomRightCornerState : 0) === 0 ? Style.radiusL : 0
     }
   }
 

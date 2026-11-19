@@ -68,7 +68,7 @@ https://github.com/user-attachments/assets/bf46f233-8d66-439a-a1ae-ab0446270f2d
 ## 📋 Requirements
 
 - Wayland compositor (see supported compositors below)
-- Quickshell: [noctalia-qs](https://github.com/noctalia-dev/noctalia-qs)
+- Quickshell: [Quickshell](https://quickshell.org) 0.3.0 or newer (plain upstream, no fork). The audio visualizer needs `cava`.
 
 ---
 

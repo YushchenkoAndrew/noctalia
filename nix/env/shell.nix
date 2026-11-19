@@ -7,8 +7,9 @@
 #   noctalia-dev                   run THIS checkout with an isolated config (.dev/)
 #   qmllint / qmlformat / qmlls    from the same Qt that quickshell is built against
 #
-# quickshell is the noctalia-qs fork pinned in flake.lock -- NOT nixpkgs' `quickshell`, which
-# lacks the Noctalia patches. The first entry builds it once; it is cached after.
+# quickshell is plain upstream Quickshell (>= 0.3.0) from nixpkgs -- no fork. It comes from the same
+# nixpkgs as everything else, so it is built/cached together with your system and always matches the Qt
+# you have (a pinned fork stops compiling whenever Qt moves).
 #
 # nixpkgs: on NixOS this uses the SYSTEM's nixpkgs (<nixpkgs>). That matters: a GUI built from a
 # different nixpkgs has a different glibc than your system's GPU drivers (/run/opengl-driver),
@@ -17,7 +18,8 @@
 #
 # Overrides (all optional):
 #   nix-shell nix/env/shell.nix --arg pkgs '(builtins.getFlake "nixpkgs").legacyPackages.x86_64-linux'
-#   nix-shell nix/env/shell.nix --arg quickshell 'pkgs.quickshell'   # use another quickshell build
+#   nix-shell nix/env/shell.nix --arg quickshell 'builtins.getFlake "git+https://git.outfoxxed.me/quickshell/quickshell"' ...
+#     (or any other Quickshell package, e.g. one built from git master)
 let
   lock = builtins.fromJSON (builtins.readFile ../../flake.lock);
   locked = name: lock.nodes.${lock.nodes.root.inputs.${name}}.locked;
@@ -33,10 +35,7 @@ let
 in
 {
   pkgs ? if hasSystemNixpkgs then import <nixpkgs> { } else import (fetchLocked (locked "nixpkgs")) { },
-  quickshell ? pkgs.callPackage "${fetchLocked (locked "noctalia-qs")}/nix/package.nix" {
-    version = "locked-${builtins.substring 0 7 (locked "noctalia-qs").rev}";
-    gitRev = (locked "noctalia-qs").rev;
-  },
+  quickshell ? pkgs.quickshell,
 }:
 let
   inherit (pkgs) lib;
@@ -52,6 +51,7 @@ let
   # Binaries the shell shells out to for the features that are on by default.
   # Add more here (ddcutil, cava, ...) when you enable the matching settings.json options.
   runtimeDeps = with pkgs; [
+    cava
     brightnessctl
     cliphist
     wlsunset
@@ -93,7 +93,7 @@ pkgs.mkShell {
   shellHook = ''
     # see noctalia-dev: keep nix-ld / system library paths out of this Nix-built toolchain
     unset LD_LIBRARY_PATH
-    echo "noctalia-qs : ${quickshell}/bin/qs"
+    echo "quickshell  : ${quickshell}/bin/qs  (${quickshell.version or "unknown"})"
     echo "nixpkgs     : $NOCTALIA_DEV_NIXPKGS"
     if [ "$NOCTALIA_DEV_NIXPKGS" = pinned ]; then
       echo "  WARNING: no <nixpkgs> on NIX_PATH, using the flake.lock pin. On NixOS this can fail to render"

@@ -12,6 +12,7 @@
   # What the shell needs for the features that are on in a lean setup.
   runtimeDeps ? [
     brightnessctl
+    cava # audio visualizer (the old native analyzer needed a Quickshell fork)
     cliphist
     wlsunset
     wl-clipboard
@@ -27,6 +28,7 @@
   quickshell,
   # runtime deps
   brightnessctl,
+  cava,
   cliphist,
   ddcutil,
   wlsunset,
@@ -36,6 +38,9 @@
   wayland-scanner,
 }:
 let
+  # Needs plain upstream Quickshell with the network, background-effect and pipewire-peak modules
+  quickshellOk = lib.versionAtLeast (quickshell.version or "0") "0.3.0";
+
   src = lib.cleanSourceWith {
     src = ../.;
     filter =
@@ -56,7 +61,10 @@ let
       ]);
   };
 in
-stdenvNoCC.mkDerivation {
+lib.warnIf (!quickshellOk)
+  "noctalia-shell needs Quickshell >= 0.3.0 (found ${quickshell.version or "unknown"}); some features will not load"
+  (
+    stdenvNoCC.mkDerivation {
   pname = "noctalia-shell";
   inherit version src;
 
@@ -90,3 +98,4 @@ stdenvNoCC.mkDerivation {
     mainProgram = "noctalia-shell";
   };
 }
+  )

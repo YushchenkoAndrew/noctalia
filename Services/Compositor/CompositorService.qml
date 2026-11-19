@@ -14,7 +14,6 @@ Singleton {
   property bool isHyprland: false
   property bool isNiri: false
   property bool isSway: false
-  property bool isMango: false
   property bool isLabwc: false
   property bool isExtWorkspace: false
   property bool isScroll: false
@@ -70,21 +69,10 @@ Singleton {
     const currentDesktop = Quickshell.env("XDG_CURRENT_DESKTOP");
     const labwcPid = Quickshell.env("LABWC_PID");
 
-    // Check for MangoWC using XDG_CURRENT_DESKTOP environment variable
-    // MangoWC sets XDG_CURRENT_DESKTOP=mango
-    if (currentDesktop && currentDesktop.toLowerCase().includes("mango")) {
+    if (labwcPid && labwcPid.length > 0) {
       isHyprland = false;
       isNiri = false;
       isSway = false;
-      isMango = true;
-      isLabwc = false;
-      isExtWorkspace = false;
-      backendLoader.sourceComponent = mangoComponent;
-    } else if (labwcPid && labwcPid.length > 0) {
-      isHyprland = false;
-      isNiri = false;
-      isSway = false;
-      isMango = false;
       isLabwc = true;
       isExtWorkspace = false;
       backendLoader.sourceComponent = labwcComponent;
@@ -93,7 +81,6 @@ Singleton {
       isHyprland = false;
       isNiri = true;
       isSway = false;
-      isMango = false;
       isLabwc = false;
       isExtWorkspace = false;
       backendLoader.sourceComponent = niriComponent;
@@ -101,7 +88,6 @@ Singleton {
       isHyprland = true;
       isNiri = false;
       isSway = false;
-      isMango = false;
       isLabwc = false;
       isExtWorkspace = false;
       backendLoader.sourceComponent = hyprlandComponent;
@@ -109,7 +95,6 @@ Singleton {
       isHyprland = false;
       isNiri = false;
       isSway = true;
-      isMango = false;
       isLabwc = false;
       isExtWorkspace = false;
       isScroll = currentDesktop && currentDesktop.toLowerCase().includes("scroll");
@@ -119,7 +104,6 @@ Singleton {
       isHyprland = false;
       isNiri = false;
       isSway = false;
-      isMango = false;
       isLabwc = false;
       isExtWorkspace = true;
       backendLoader.sourceComponent = extWorkspaceComponent;
@@ -180,14 +164,6 @@ Singleton {
     id: swayComponent
     SwayService {
       id: swayBackend
-    }
-  }
-
-  // Mango backend component
-  Component {
-    id: mangoComponent
-    MangoService {
-      id: mangoBackend
     }
   }
 

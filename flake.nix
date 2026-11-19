@@ -1,20 +1,18 @@
 {
   description = "Noctalia shell - a Wayland desktop shell built with Quickshell";
 
+  # Plain upstream Quickshell (>= 0.3.0) from nixpkgs, which keeps it building against the current Qt.
+  # To track Quickshell git instead, add an input and pass it in your own config:
+  #   quickshell = { url = "git+https://git.outfoxxed.me/quickshell/quickshell"; inputs.nixpkgs.follows = "nixpkgs"; };
+  #   ... noctalia.packages.${system}.default.override { quickshell = inputs.quickshell.packages.${system}.default; }
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    noctalia-qs = {
-      # url = "github:noctalia-dev/noctalia-qs";
-      url = "github:YushchenkoAndrew/noctalia-qs/qt612-fix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      noctalia-qs,
       ...
     }:
     let
@@ -44,20 +42,15 @@
       });
 
       overlays = {
-        default = nixpkgs.lib.composeManyExtensions [
-          noctalia-qs.overlays.default
-          (final: prev: {
-            noctalia-shell = final.callPackage ./nix/package.nix {
-              inherit version;
-            };
-          })
-        ];
+        default = final: prev: {
+          noctalia-shell = final.callPackage ./nix/package.nix {
+            inherit version;
+          };
+        };
       };
 
       devShells = eachSystem (system: {
-        default = pkgsFor.${system}.callPackage ./nix/shell.nix {
-          quickshell = noctalia-qs.packages.${system}.default;
-        };
+        default = pkgsFor.${system}.callPackage ./nix/shell.nix { };
       });
 
       homeModules.default =
