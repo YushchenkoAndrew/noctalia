@@ -233,30 +233,14 @@ PanelWindow {
     }
 
     // ── Panel blur regions ──
-    // Opening panel
-    Region {
-      x: backgroundBlur.panelBg ? Math.round(backgroundBlur.panelBg.x) : 0
-      y: backgroundBlur.panelBg ? Math.round(backgroundBlur.panelBg.y) : 0
-      width: backgroundBlur.panelBg ? Math.round(backgroundBlur.panelBg.width) : 0
-      height: backgroundBlur.panelBg ? Math.round(backgroundBlur.panelBg.height) : 0
-      radius: Style.radiusL
-      topLeftRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.topLeftCornerState : 0) === 0 ? Style.radiusL : 0
-      topRightRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.topRightCornerState : 0) === 0 ? Style.radiusL : 0
-      bottomLeftRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.bottomLeftCornerState : 0) === 0 ? Style.radiusL : 0
-      bottomRightRadius: (backgroundBlur.panelBg ? backgroundBlur.panelBg.bottomRightCornerState : 0) === 0 ? Style.radiusL : 0
+    // Opening panel (rounded outline plus the concave flares where it attaches to the bar)
+    PanelBlurRegion {
+      panel: backgroundBlur.panelBg
     }
 
     // Closing panel (coexists with opening panel during transition)
-    Region {
-      x: backgroundBlur.closingPanelBg ? Math.round(backgroundBlur.closingPanelBg.x) : 0
-      y: backgroundBlur.closingPanelBg ? Math.round(backgroundBlur.closingPanelBg.y) : 0
-      width: backgroundBlur.closingPanelBg ? Math.round(backgroundBlur.closingPanelBg.width) : 0
-      height: backgroundBlur.closingPanelBg ? Math.round(backgroundBlur.closingPanelBg.height) : 0
-      radius: Style.radiusL
-      topLeftRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.topLeftCornerState : 0) === 0 ? Style.radiusL : 0
-      topRightRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.topRightCornerState : 0) === 0 ? Style.radiusL : 0
-      bottomLeftRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.bottomLeftCornerState : 0) === 0 ? Style.radiusL : 0
-      bottomRightRadius: (backgroundBlur.closingPanelBg ? backgroundBlur.closingPanelBg.bottomRightCornerState : 0) === 0 ? Style.radiusL : 0
+    PanelBlurRegion {
+      panel: backgroundBlur.closingPanelBg
     }
   }
 

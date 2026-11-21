@@ -42,7 +42,10 @@ Singleton {
     onAdapterUpdated: saveTimer.start()
     onLoaded: {
       Logger.d("Location", "Loaded cached data");
-      if (adapter.latitude !== "" && adapter.longitude !== "" && adapter.weatherLastFetch > 0) {
+      // Coordinates are valid on their own. They used to also require weatherLastFetch > 0, which is only
+      // set when weather is fetched; with weather disabled that left coordinatesReady false after the first
+      // run (cache present => no geocoding, but never "ready"), so auto night light never started.
+      if (adapter.latitude !== "" && adapter.longitude !== "") {
         root.stableLatitude = adapter.latitude;
         root.stableLongitude = adapter.longitude;
         root.stableName = adapter.name;
@@ -93,6 +96,20 @@ Singleton {
     repeat: true
     onTriggered: {
       update();
+    }
+  }
+
+  // No coordinates yet (first run offline, or the network was not up at login): keep trying
+  Timer {
+    id: coordinatesRetryTimer
+    interval: 30 * 1000
+    running: !root.coordinatesReady
+    repeat: true
+    onTriggered: {
+      if (!root.isFetchingWeather) {
+        Logger.i("Location", "No coordinates yet, retrying lookup");
+        root.updateLocation();
+      }
     }
   }
 

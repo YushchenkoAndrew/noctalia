@@ -849,7 +849,7 @@ SmartPanel {
           width: labelText.implicitWidth + Style.margin2M
           height: labelText.height + Style.margin2XS
           radius: Math.min(Style.radiusM, height / 2)
-          color: (buttonRoot.isSelected || buttonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.mSurface
+          color: (buttonRoot.isSelected || buttonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.smartAlpha(NColor.mSurface)
           border.width: Style.borderS
           border.color: (buttonRoot.isSelected || buttonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.mOutline
           visible: Settings.data.sessionMenu.showKeybinds && (buttonRoot.keybind !== "") && !buttonRoot.pending
@@ -1085,7 +1085,7 @@ SmartPanel {
       width: largeNumberText.implicitWidth + Style.margin2M
       height: largeNumberText.implicitHeight + Style.margin2XS
       radius: Math.min(Style.radiusM, height / 2)
-      color: (largeButtonRoot.isSelected || largeButtonRoot.effectiveHover) ? NColor.mOnPrimary : Qt.alpha(NColor.mSurfaceVariant, 0.7)
+      color: (largeButtonRoot.isSelected || largeButtonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.smartAlpha(NColor.mSurfaceVariant)
       border.width: Style.borderS
       border.color: (largeButtonRoot.isSelected || largeButtonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.mOutline
       visible: Settings.data.sessionMenu.showKeybinds && (largeButtonRoot.keybind !== "") && !largeButtonRoot.pending

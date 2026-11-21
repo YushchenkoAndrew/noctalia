@@ -393,6 +393,21 @@ Singleton {
     function reapply() {
       NightLightService.reapply("ipc");
     }
+
+    // Quick diagnosis: is wlsunset running, with which command, and do we have coordinates?
+    function status(): string {
+      var p = Settings.data.nightLight;
+      return JSON.stringify({
+                              "enabled": p.enabled,
+                              "forced": p.forced,
+                              "autoSchedule": p.autoSchedule,
+                              "wlsunsetRunning": NightLightService.isRunning,
+                              "coordinatesReady": LocationService.coordinatesReady,
+                              "latitude": LocationService.stableLatitude,
+                              "longitude": LocationService.stableLongitude,
+                              "command": NightLightService.lastCommand.join(" ")
+                            });
+    }
   }
 
   IpcHandler {

@@ -12,6 +12,7 @@ Singleton {
   // Night Light properties - directly bound to settings
   readonly property var params: Settings.data.nightLight
   property var lastCommand: []
+  readonly property bool isRunning: runner.running
 
   // Crash tracking for auto-restart
   property int _crashCount: 0
