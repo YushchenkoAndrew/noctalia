@@ -637,7 +637,7 @@ Item {
       readonly property bool isExpanded: root.infoSsid === modelData.ssid
       readonly property bool isEnterprise: NetworkService.isEnterprise(modelData.security)
 
-      function getContentColors(defaultColors = [NColor.mSurface, NColor.mOnSurface]) {
+      function getContentColors(defaultColors = [Qt.alpha(NColor.mSurface, 0.2), NColor.mOnSurface]) {
         if (root.passwordSsid === modelData.ssid || NetworkService.connectingTo === modelData.ssid) {
           return [NColor.mPrimary, NColor.mOnPrimary];
         }
