@@ -602,7 +602,7 @@ Item {
 
         NButton {
           text: I18n.tr("common.cancel")
-          backgroundColor: NColor.mSurfaceVariant
+          backgroundColor: NColor.smartAlpha(NColor.mSurfaceVariant)
           textColor: NColor.mOnSurfaceVariant
           outlined: false
           onClicked: addNetworkPopup.close()
@@ -801,7 +801,7 @@ Item {
               icon: "info"
               tooltipText: I18n.tr("common.info")
               baseSize: Style.baseWidgetSize * 0.75
-              colorBg: NColor.mSurfaceVariant
+              colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
               colorFg: NColor.mOnSurface
               colorBorder: "transparent"
               colorBorderHover: "transparent"
@@ -849,7 +849,7 @@ Item {
               visible: modelData.connected && NetworkService.disconnectingFrom !== modelData.ssid
               text: I18n.tr("common.disconnect")
               fontSize: Style.fontSizeS
-              backgroundColor: NColor.mSurfaceVariant
+              backgroundColor: NColor.smartAlpha(NColor.mSurfaceVariant)
               textColor: NColor.mOnSurface
               onClicked: NetworkService.disconnect(modelData.ssid)
             }

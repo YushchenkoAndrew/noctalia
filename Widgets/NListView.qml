@@ -23,6 +23,8 @@ Item {
 
   property bool showGradientMasks: true
   property color gradientColor: NColor.mSurfaceVariant
+  // With a translucent panel an opaque fade would show as a dark band at the list edges, so fade to nothing instead
+  readonly property color fadeColor: Settings.data.ui.panelBackgroundOpacity < 1.0 ? "transparent" : gradientColor
   property int gradientHeight: 16
   property bool reserveScrollbarSpace: true
 
@@ -210,7 +212,7 @@ Item {
           NumberAnimation { duration: Style.animationFast; easing.type: Easing.InOutQuad }
         }
         gradient: Gradient {
-          GradientStop { position: 0.0; color: root.gradientColor }
+          GradientStop { position: 0.0; color: root.fadeColor }
           GradientStop { position: 1.0; color: "transparent" }
         }
       }
@@ -237,7 +239,7 @@ Item {
         }
         gradient: Gradient {
           GradientStop { position: 0.0; color: "transparent" }
-          GradientStop { position: 1.0; color: root.gradientColor }
+          GradientStop { position: 1.0; color: root.fadeColor }
         }
       }
     `, root, "bottomGradient");

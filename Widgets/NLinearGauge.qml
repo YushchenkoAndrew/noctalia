@@ -10,7 +10,7 @@ Rectangle {
   required property real ratio // 0..1
 
   radius: orientation === Qt.Vertical ? width / 2 : height / 2
-  color: NColor.mOutline
+  color: NColor.smartAlpha(NColor.mOutline)
   property color fillColor: NColor.mPrimary
 
   // Fill that grows from bottom if vertical and left if horizontal.

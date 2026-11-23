@@ -50,7 +50,7 @@ Slider {
         id: bgPath
         strokeColor: Qt.alpha(NColor.mOutline, 0.5)
         strokeWidth: Style.borderS
-        fillColor: Qt.alpha(NColor.mSurface, 0.5)
+        fillColor: Settings.data.ui.translucentWidgets ? NColor.smartAlpha(NColor.mSurface) : Qt.alpha(NColor.mSurface, 0.5)
 
         readonly property real w: bgContainer.width
         readonly property real h: bgContainer.height

@@ -262,7 +262,7 @@ DraggableDesktopWidget {
         baseSize: Math.round(32 * widgetScale)
         icon: "media-prev"
         enabled: hasPlayer && MediaService.canGoPrevious
-        colorBg: NColor.mSurfaceVariant
+        colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
         colorFg: enabled ? NColor.mPrimary : NColor.mOnSurfaceVariant
         customRadius: Math.round(Style.radiusS * widgetScale)
         onClicked: {
@@ -298,7 +298,7 @@ DraggableDesktopWidget {
         baseSize: Math.round(32 * widgetScale)
         icon: "media-next"
         enabled: hasPlayer && MediaService.canGoNext
-        colorBg: NColor.mSurfaceVariant
+        colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
         colorFg: enabled ? NColor.mPrimary : NColor.mOnSurfaceVariant
         customRadius: Math.round(Style.radiusS * widgetScale)
         onClicked: {

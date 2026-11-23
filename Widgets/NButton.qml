@@ -61,7 +61,7 @@ Item {
     radius: root.buttonRadius
     color: {
       if (!root.enabled)
-        return root.outlined ? "transparent" : Qt.lighter(NColor.mSurfaceVariant, 1.2);
+        return root.outlined ? "transparent" : NColor.smartAlpha(Qt.lighter(NColor.mSurfaceVariant, 1.2));
       if (root.hovered)
         return root.hoverColor;
       return root.outlined ? "transparent" : root.backgroundColor;

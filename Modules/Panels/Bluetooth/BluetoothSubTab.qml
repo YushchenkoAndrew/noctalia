@@ -486,7 +486,7 @@ Item {
               icon: "info"
               tooltipText: I18n.tr("common.info")
               baseSize: Style.baseWidgetSize * 0.75
-              colorBg: NColor.mSurfaceVariant
+              colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
               colorFg: NColor.mOnSurface
               colorBorder: "transparent"
               colorBorderHover: "transparent"
@@ -513,7 +513,7 @@ Item {
               visible: modelData.state !== BluetoothDeviceState.Connecting && modelData.state !== BluetoothDeviceState.Disconnecting
               enabled: (canConnect || canDisconnect || (root.showOnlyLists ? false : canPair)) && !isBusy
               fontSize: Style.fontSizeS
-              backgroundColor: modelData.connected ? NColor.mSurfaceVariant : NColor.mPrimary
+              backgroundColor: modelData.connected ? NColor.smartAlpha(NColor.mSurfaceVariant) : NColor.mPrimary
               textColor: modelData.connected ? NColor.mOnSurface : NColor.mOnPrimary
               text: {
                 if (modelData.pairing)

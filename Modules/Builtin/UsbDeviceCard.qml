@@ -127,7 +127,7 @@ Rectangle {
                 Layout.fillWidth: true
                 height: Style.marginXS
                 radius: height / 2
-                color: NColor.mOutline
+                color: NColor.smartAlpha(NColor.mOutline)
 
                 Rectangle {
                     width: parent.width * Math.min((device?.usedPercent ?? 0) / 100, 1)
@@ -187,7 +187,7 @@ Rectangle {
                 icon: "copy"
                 tooltipText: pluginApi?.tr("device.action-copy-path")
                 baseSize: Style.baseWidgetSize * 0.8
-                colorBg: NColor.mSurfaceVariant
+                colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
                 colorFg: NColor.mOnSurfaceVariant
                 colorBgHover: NColor.mHover
                 colorFgHover: NColor.mOnHover
@@ -211,7 +211,7 @@ Rectangle {
                 icon: "plug-connected-x"
                 tooltipText: pluginApi?.tr("device.action-unmount")
                 baseSize: Style.baseWidgetSize * 0.8
-                colorBg: NColor.mSurfaceVariant
+                colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
                 colorFg: NColor.mOnSurfaceVariant
                 colorBgHover: NColor.mHover
                 colorFgHover: NColor.mOnHover
@@ -225,7 +225,7 @@ Rectangle {
                 icon: "player-eject"
                 tooltipText: pluginApi?.tr("device.action-eject")
                 baseSize: Style.baseWidgetSize * 0.8
-                colorBg: NColor.mSurfaceVariant
+                colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
                 colorFg: NColor.mOnSurfaceVariant
                 colorBgHover: NColor.mError
                 colorFgHover: NColor.mOnError

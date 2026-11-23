@@ -48,7 +48,7 @@ RowLayout {
     implicitWidth: Math.round(root.baseSize * .85) * 2
     implicitHeight: Math.round(root.baseSize * .5) * 2
     radius: Math.min(Style.iRadiusL, height / 2)
-    color: root.checked ? NColor.mPrimary : NColor.mSurface
+    color: root.checked ? NColor.mPrimary : NColor.smartAlpha(NColor.mSurface)
     border.color: NColor.mOutline
     border.width: Style.borderS
 

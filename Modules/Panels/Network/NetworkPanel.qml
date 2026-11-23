@@ -566,7 +566,7 @@ SmartPanel {
                             icon: "info"
                             tooltipText: I18n.tr("common.info")
                             baseSize: Style.baseWidgetSize * 0.75
-                            colorBg: NColor.mSurfaceVariant
+                            colorBg: NColor.smartAlpha(NColor.mSurfaceVariant)
                             colorFg: NColor.mOnSurface
                             colorBorder: "transparent"
                             colorBorderHover: "transparent"

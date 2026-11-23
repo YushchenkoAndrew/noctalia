@@ -44,7 +44,7 @@ RowLayout {
     implicitWidth: Style.toOdd(root.baseSize)
     implicitHeight: Style.toOdd(root.baseSize)
     radius: Style.iRadiusXS * (root.baseSize / root.defaultSize)
-    color: root.checked ? root.activeColor : NColor.mSurface
+    color: root.checked ? root.activeColor : NColor.smartAlpha(NColor.mSurface)
     border.color: NColor.mOutline
     border.width: Style.borderS
 

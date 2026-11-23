@@ -498,7 +498,7 @@ Variants {
                 icon: "grid-3x3"
                 visible: Settings.data.desktopWidgets.gridSnap
                 tooltipText: I18n.tr("panels.desktop-widgets.edit-mode-grid-snap-scale-label")
-                colorBg: Settings.data.desktopWidgets.gridSnapScale ? NColor.mPrimary : NColor.mSurfaceVariant
+                colorBg: Settings.data.desktopWidgets.gridSnapScale ? NColor.mPrimary : NColor.smartAlpha(NColor.mSurfaceVariant)
                 colorFg: Settings.data.desktopWidgets.gridSnapScale ? NColor.mOnPrimary : NColor.mPrimary
                 onClicked: Settings.data.desktopWidgets.gridSnapScale = !Settings.data.desktopWidgets.gridSnapScale
               }
@@ -506,7 +506,7 @@ Variants {
               NIconButton {
                 icon: "grid-4x4"
                 tooltipText: I18n.tr("panels.desktop-widgets.edit-mode-grid-snap-label")
-                colorBg: Settings.data.desktopWidgets.gridSnap ? NColor.mPrimary : NColor.mSurfaceVariant
+                colorBg: Settings.data.desktopWidgets.gridSnap ? NColor.mPrimary : NColor.smartAlpha(NColor.mSurfaceVariant)
                 colorFg: Settings.data.desktopWidgets.gridSnap ? NColor.mOnPrimary : NColor.mPrimary
                 onClicked: Settings.data.desktopWidgets.gridSnap = !Settings.data.desktopWidgets.gridSnap
               }
