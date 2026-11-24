@@ -851,7 +851,7 @@ SmartPanel {
           radius: Math.min(Style.radiusM, height / 2)
           color: (buttonRoot.isSelected || buttonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.smartAlpha(NColor.mSurface)
           border.width: Style.borderS
-          border.color: (buttonRoot.isSelected || buttonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.mOutline
+          border.color: (buttonRoot.isSelected || buttonRoot.effectiveHover) ? NColor.mOnPrimary : Style.buttonBorderColor
           visible: Settings.data.sessionMenu.showKeybinds && (buttonRoot.keybind !== "") && !buttonRoot.pending
 
           NText {
@@ -1087,7 +1087,7 @@ SmartPanel {
       radius: Math.min(Style.radiusM, height / 2)
       color: (largeButtonRoot.isSelected || largeButtonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.smartAlpha(NColor.mSurfaceVariant)
       border.width: Style.borderS
-      border.color: (largeButtonRoot.isSelected || largeButtonRoot.effectiveHover) ? NColor.mOnPrimary : NColor.mOutline
+      border.color: (largeButtonRoot.isSelected || largeButtonRoot.effectiveHover) ? NColor.mOnPrimary : Style.buttonBorderColor
       visible: Settings.data.sessionMenu.showKeybinds && (largeButtonRoot.keybind !== "") && !largeButtonRoot.pending
       z: 10
 

@@ -158,6 +158,7 @@ Singleton {
   readonly property int capsuleBorderWidth: Settings.data.bar.showOutline ? Style.borderS : 0
 
   readonly property color boxBorderColor: Settings.data.ui.boxBorderEnabled ? NColor.mOutline : "transparent"
+  readonly property color buttonBorderColor: Settings.data.ui.buttonBorderEnabled ? NColor.mOutline : "transparent"
 
   // Pixel-perfect utility for centering content without subpixel positioning
   function pixelAlignCenter(containerSize, contentSize) {

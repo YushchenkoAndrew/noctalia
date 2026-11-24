@@ -33,7 +33,7 @@ Rectangle {
   bottomRightRadius: isLast ? Style.iRadiusM : Style.iRadiusXXXS
 
   color: root.isHovered ? NColor.mHover : (root.checked ? NColor.mPrimary : NColor.smartAlpha(NColor.mSurface))
-  border.color: root.checked ? NColor.mPrimary : NColor.mOutline
+  border.color: root.checked ? NColor.mPrimary : Style.buttonBorderColor
   border.width: Style.borderS
 
   Behavior on color {

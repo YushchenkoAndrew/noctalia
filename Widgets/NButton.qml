@@ -70,7 +70,7 @@ Item {
     border.width: root.outlined ? Style.borderS : 0
     border.color: {
       if (!root.enabled)
-        return NColor.mOutline;
+        return Style.buttonBorderColor;
       if (root.hovered)
         return root.hoverColor;
       return root.outlined ? root.backgroundColor : "transparent";

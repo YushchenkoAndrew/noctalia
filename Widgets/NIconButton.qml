@@ -21,8 +21,8 @@ Item {
   property color colorFg: NColor.mPrimary
   property color colorBgHover: NColor.mHover
   property color colorFgHover: NColor.mOnHover
-  property color colorBorder: NColor.mOutline
-  property color colorBorderHover: NColor.mOutline
+  property color colorBorder: Style.buttonBorderColor
+  property color colorBorderHover: Style.buttonBorderColor
   property real customRadius: -1 // -1 means use default (iRadiusL), otherwise use this value
 
   // Expose border properties for backwards compatibility (aliases to visualButton)

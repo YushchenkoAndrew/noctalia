@@ -354,6 +354,9 @@ Singleton {
       property bool tooltipsEnabled: true
       property bool scrollbarAlwaysVisible: true
       property bool boxBorderEnabled: false
+      // Outline (mOutline) around buttons: icon buttons, tab buttons, disabled buttons, session menu buttons.
+      // Off by default so buttons are borderless; accent borders (primary/hover/error) are unaffected.
+      property bool buttonBorderEnabled: false
       property real panelBackgroundOpacity: 0.93
       property bool translucentWidgets: false
       // Opacity of cards/rows inside panels when translucentWidgets is on (0 = invisible, 1 = solid)
