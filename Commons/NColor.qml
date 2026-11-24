@@ -354,6 +354,12 @@ Singleton {
     return Settings.data.colorSchemes.darkMode ? baseOpacity : Math.pow(baseOpacity, 1.5);
   }
 
+  // True for the accent palette (primary/secondary/tertiary/error/hover). Those fills must stay solid;
+  // only the dark neutrals (surface, surfaceVariant, outline, ...) are made translucent.
+  function isAccent(c) {
+    return Qt.colorEqual(c, mPrimary) || Qt.colorEqual(c, mSecondary) || Qt.colorEqual(c, mTertiary) || Qt.colorEqual(c, mError) || Qt.colorEqual(c, mHover);
+  }
+
   // Background for cards/rows drawn on top of a panel. When ui.translucentWidgets is on, their opacity is
   // ui.widgetBackgroundOpacity (independent of the panel's own opacity), so cards can be glassier than the panel.
   function smartAlpha(baseColor, minAlpha = 0.0) {

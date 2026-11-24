@@ -649,7 +649,7 @@ SmartPanel {
       visible: !largeButtonsStyle
       anchors.fill: parent
       anchors.margins: Style.marginL
-      color: NColor.smartAlpha(NColor.mSurfaceVariant)
+      color: NColor.mSurfaceVariant
       ColumnLayout {
         anchors.fill: parent
         anchors.margins: Style.marginL

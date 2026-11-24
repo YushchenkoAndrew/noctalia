@@ -101,7 +101,6 @@ SmartPanel {
       visible: root.previewActive
       width: root.previewPanelWidth
       height: Math.round(400 * Style.uiScaleRatio)
-      forceOpaque: true // no blur for now
       x: root.panelAnchorRight ? -(root.previewPanelWidth + Style.marginM) : ui.width + Style.marginM
       y: {
         var view = launcherCore.resultsView;

@@ -353,7 +353,6 @@ Variants {
         visible: launcherWindow.previewActive
         width: launcherWindow.previewPanelWidth
         height: Math.round(400 * Style.uiScaleRatio)
-        forceOpaque: true
         x: {
           if (panelPosition.endsWith("_right"))
             return launcherPanel.x - launcherWindow.previewPanelWidth - Style.marginM;

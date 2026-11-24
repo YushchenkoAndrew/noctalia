@@ -145,7 +145,7 @@ Item {
       visible: !root.showOnlyLists
       Layout.fillWidth: true
       Layout.preferredHeight: masterControlCol.implicitHeight + Style.margin2L
-      color: NColor.smartAlpha(NColor.mSurface)
+      color: NColor.mSurface
       ColumnLayout {
         id: masterControlCol
         anchors.fill: parent
@@ -307,7 +307,7 @@ Item {
       visible: !root.showOnlyLists && BluetoothService.enabled
       Layout.fillWidth: true
       Layout.preferredHeight: miscSettingsCol.implicitHeight + Style.margin2XL
-      color: NColor.smartAlpha(NColor.mSurface)
+      color: NColor.mSurface
       ColumnLayout {
         id: miscSettingsCol
         anchors.fill: parent
@@ -391,7 +391,6 @@ Item {
       Layout.preferredHeight: deviceColumn.implicitHeight + (Style.marginXL)
       radius: Style.radiusM
       clip: true
-      forceOpaque: true
       color: device.getContentColors()[0]
 
       ColumnLayout {

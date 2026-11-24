@@ -452,7 +452,6 @@ SmartPanel {
                       Layout.rightMargin: Style.marginXS
                       implicitHeight: ethItemColumn.implicitHeight + Style.margin2M
                       radius: Style.radiusM
-                      forceOpaque: true
                       color: ethItem.getContentColors()[0]
 
                       ColumnLayout {

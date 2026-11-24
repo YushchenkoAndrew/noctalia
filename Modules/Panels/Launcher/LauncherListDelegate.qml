@@ -18,8 +18,7 @@ NBox {
   width: ListView.view.width
   implicitHeight: launcher.entryHeight
   clip: true
-  color: entry.isSelected ? NColor.mHover : NColor.smartAlpha(NColor.mSurfaceVariant)
-  forceOpaque: entry.isSelected
+  color: entry.isSelected ? NColor.mHover : NColor.mSurfaceVariant
 
   // Prepare item when it becomes visible (e.g., decode images)
   Component.onCompleted: {
